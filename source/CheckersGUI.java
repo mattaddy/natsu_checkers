@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 import java.awt.Color;
 import java.awt.Container;
@@ -21,10 +21,15 @@ import javax.swing.JTextField;
 
 /**
  * CheckersGUI - the GUI for the checkers game
- * 
+ *
  * @author Allan Liburd - abl2114
  */
-public class CheckersGUI {
+public class CheckersGUI implements ModelListener {
+
+	/**
+	 * The ViewListener object to send messages to.
+	 */
+	private ViewListener viewListener;
 
 	private JFrame frame;
 
@@ -90,9 +95,19 @@ public class CheckersGUI {
 		frame.setVisible(true);
 	}
 
+	public void setViewListener(ViewListener viewListener) {
+		this.viewListener = viewListener;
+	}
+
+	public void playerJoined() {}
+
+	public void boardChanged() {}
+
+	public void illegalMove() {}
+
 	/**
 	 * Determines the background color to be used
-	 * 
+	 *
 	 * @param c
 	 * @return
 	 */

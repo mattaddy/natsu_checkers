@@ -35,7 +35,4 @@ public class CheckersModel implements ViewListener {
     public void join(ViewProxy viewProxy, String sessionName)
         throws IOException {}
 
-    public void movePiece(int currLoc, int nextLoc, Color c)
-        throws IOException {}
-
 }

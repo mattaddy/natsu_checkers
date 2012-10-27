@@ -46,7 +46,4 @@ public class SessionManager implements ViewListener {
         viewProxy.setViewListener(model);
     }
 
-    public void movePiece(int currLoc, int nextLoc, Color c)
-        throws IOException {}
-
 }

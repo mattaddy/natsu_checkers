@@ -73,7 +73,27 @@ public class ViewProxy implements ModelListener {
     private class ClientMessage implements Runnable {
 
         public void run() {
+            try {
+                while (true) {
+                    String message = in.next();
 
+                    if (message.equals("j")) {
+                        String session = in.next();
+                    }
+                }
+            // } catch (IOException ex) {
+
+            } catch (NoSuchElementException ex) {
+
+            } finally {
+                try {
+                    out.close();
+                    in.close();
+                    sock.close();
+                } catch(IOException ex) {
+
+                }
+            }
         }
     }
 

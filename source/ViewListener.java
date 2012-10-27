@@ -29,17 +29,4 @@ public interface ViewListener {
 	public void join(ViewProxy viewProxy, String sessionName)
 		throws IOException;
 
-	/**
-	 * Reports that a piece is trying to move
-	 *
-	 * @param currLoc
-	 *            - the current location of the piece
-	 * @param nextLoc
-	 *            - the location to move the piece to
-	 * @param c
-	 *            - the color of the game piece
-	 * @throws IOException
-	 */
-	public void movePiece(int currLoc, int nextLoc, Color c) throws IOException;
-
 }
