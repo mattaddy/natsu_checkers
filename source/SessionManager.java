@@ -35,7 +35,15 @@ public class SessionManager implements ViewListener {
      */
     public synchronized void join(ViewProxy viewProxy, String sessionName)
         throws IOException {
+        CheckersModel model = sessions.get(sessionName);
 
+        if (model == null) {
+            model = new CheckersModel();
+            sessions.put(sessionName, model);
+        }
+
+        model.addModelListener(viewProxy);
+        viewProxy.setViewListener(model);
     }
 
     public void movePiece(int currLoc, int nextLoc, Color c)
