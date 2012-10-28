@@ -67,7 +67,8 @@ public class ModelProxy implements ViewListener {
      */
     public void join(ViewProxy viewProxy, String sessionName)
         throws IOException {
-        out.println("j " + sessionName);
+        String message = "j " + sessionName;
+        out.println(message);
         out.flush();
     }
 
@@ -84,10 +85,7 @@ public class ModelProxy implements ViewListener {
             try {
                 while (true) {
                     String message = in.next();
-
-                    if (message.equals("j")) {
-                        String session = in.next();
-                    }
+                    System.out.println("Received message: " + message);
                 }
             // } catch (IOException ex) {
 

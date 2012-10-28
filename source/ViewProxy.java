@@ -63,6 +63,11 @@ public class ViewProxy implements ModelListener {
 
     public void illegalMove() throws IOException {}
 
+    public void tooManyPlayers() throws IOException {
+        out.println("e");
+        out.flush();
+    }
+
     /**
      * Class ClientMessage is responsible for receiving messages from the
      * remote client and sending messages to the ViewListener object.
@@ -78,10 +83,11 @@ public class ViewProxy implements ModelListener {
                     String message = in.next();
 
                     if (message.equals("j")) {
-                        String session = in.next();
+                        String sessionName = in.next();
+                        viewListener.join(ViewProxy.this, sessionName);
                     }
                 }
-            // } catch (IOException ex) {
+            } catch (IOException ex) {
 
             } catch (NoSuchElementException ex) {
 

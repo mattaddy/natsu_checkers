@@ -32,4 +32,6 @@ public class CheckersModelClone implements ModelListener {
 
     public void illegalMove() {}
 
+    public void tooManyPlayers() {}
+
 }

@@ -105,6 +105,8 @@ public class CheckersGUI implements ModelListener {
 
 	public void illegalMove() {}
 
+	public void tooManyPlayers() {}
+
 	/**
 	 * Determines the background color to be used
 	 *

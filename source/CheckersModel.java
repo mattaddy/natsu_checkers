@@ -11,15 +11,20 @@ import java.awt.Color;
 public class CheckersModel implements ViewListener {
 
     /**
+     * How many ModelListener objects can be listening to this model at a time.
+     */
+    private static final int MAX_LISTENERS = 2;
+
+    /**
      * The collection of ModelListener objects to send updates to.
      */
-    ArrayList<ModelListener> modelListeners;
+    private ArrayList<ModelListener> modelListeners;
 
     /**
      * Construct a CheckersModel object.
      */
     public CheckersModel() {
-        modelListeners = new ArrayList<ModelListener>();
+        modelListeners = new ArrayList<ModelListener>(MAX_LISTENERS);
     }
 
     /**
@@ -27,9 +32,20 @@ public class CheckersModel implements ViewListener {
      * added will receieve updates from this model.
      *
      * @param modelListener The ModelListener object to add.
+     *
+     * @return boolean True if the ModelListener was added, false otherwise.
      */
-    public synchronized void addModelListener(ModelListener modelListener) {
-        modelListeners.add(modelListener);
+    public synchronized boolean addModelListener(ModelListener modelListener) {
+        boolean listenerAdded = false;
+
+        if (modelListeners.size() < MAX_LISTENERS) {
+            modelListeners.add(modelListener);
+            listenerAdded = true;
+        }
+
+        System.out.println("Added model listener: " + listenerAdded);
+
+        return listenerAdded;
     }
 
     public void join(ViewProxy viewProxy, String sessionName)

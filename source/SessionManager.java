@@ -42,8 +42,12 @@ public class SessionManager implements ViewListener {
             sessions.put(sessionName, model);
         }
 
-        model.addModelListener(viewProxy);
         viewProxy.setViewListener(model);
+        boolean spaceAvailable = model.addModelListener(viewProxy);
+
+        if (!spaceAvailable) {
+            viewProxy.tooManyPlayers();
+        }
     }
 
 }
