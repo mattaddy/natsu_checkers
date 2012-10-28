@@ -43,8 +43,6 @@ public class CheckersModel implements ViewListener {
             listenerAdded = true;
         }
 
-        System.out.println("Added model listener: " + listenerAdded);
-
         return listenerAdded;
     }
 
