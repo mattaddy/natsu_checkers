@@ -46,6 +46,8 @@ public class CheckersGUI implements ModelListener {
 	public CheckersGUI() {
 
 		frame = new JFrame("Nastu: Checkers App");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		Container pane = frame.getContentPane();
 		JPanel mainPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
@@ -105,7 +107,12 @@ public class CheckersGUI implements ModelListener {
 
 	public void illegalMove() {}
 
-	public void tooManyPlayers() {}
+	public void tooManyPlayers() {
+		JOptionPane.showMessageDialog(frame, "Too many players",
+			"There are too many players in the specified session. Please "
+			+ "create a new session or try joining another one.",
+			JOptionPane.ERROR_MESSAGE);
+	}
 
 	/**
 	 * Determines the background color to be used

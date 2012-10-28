@@ -85,9 +85,12 @@ public class ModelProxy implements ViewListener {
             try {
                 while (true) {
                     String message = in.next();
-                    System.out.println("Received message: " + message);
+
+                    if (message.equals("e")) {
+                        modelListener.tooManyPlayers();
+                    }
                 }
-            // } catch (IOException ex) {
+            } catch (IOException ex) {
 
             } catch (NoSuchElementException ex) {
 

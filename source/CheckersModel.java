@@ -32,21 +32,31 @@ public class CheckersModel implements ViewListener {
      * added will receieve updates from this model.
      *
      * @param modelListener The ModelListener object to add.
-     *
-     * @return boolean True if the ModelListener was added, false otherwise.
      */
-    public synchronized boolean addModelListener(ModelListener modelListener) {
-        boolean listenerAdded = false;
-
+    public synchronized void addModelListener(ModelListener modelListener) {
         if (modelListeners.size() < MAX_LISTENERS) {
             modelListeners.add(modelListener);
-            listenerAdded = true;
         }
-
-        return listenerAdded;
     }
 
+    /**
+     * Join a game session by specifying the games unique identifier.
+     *
+     * @param viewProxy   The ViewProxy object.
+     * @param sessionName The name of the session to join.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
     public void join(ViewProxy viewProxy, String sessionName)
         throws IOException {}
+
+    /**
+     * Check if there is room for another ModelListener in this model.
+     *
+     * @return boolean True if there is room, false otherwise.
+     */
+    public boolean spaceAvailable() {
+        return modelListeners.size() < MAX_LISTENERS;
+    }
 
 }

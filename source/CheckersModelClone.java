@@ -1,3 +1,5 @@
+import java.io.IOException;
+
 /**
  * Class CheckersModelClone provides a local representative of the "real"
  * CheckersModel object that resides on the server.
@@ -32,6 +34,8 @@ public class CheckersModelClone implements ModelListener {
 
     public void illegalMove() {}
 
-    public void tooManyPlayers() {}
+    public void tooManyPlayers() throws IOException {
+        modelListener.tooManyPlayers();
+    }
 
 }
