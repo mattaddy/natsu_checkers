@@ -77,6 +77,20 @@ public class ViewProxy implements ModelListener {
         out.flush();
     }
 
+    public void yourTurn() throws IOException {
+        out.println("t");
+        out.flush();
+    }
+
+    /**
+     * Check whether it's my turn to move.
+     *
+     * @return boolean True if it's my turn, false otherwise.
+     */
+    public boolean isMyTurn() {
+        return false;
+    }
+
     /**
      * Class ClientMessage is responsible for receiving messages from the
      * remote client and sending messages to the ViewListener object.

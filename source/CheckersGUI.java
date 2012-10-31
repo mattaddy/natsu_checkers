@@ -83,7 +83,7 @@ public class CheckersGUI implements ModelListener {
 	    	    boardButtons[row][column].addActionListener(new ActionListener() {
 	    	    	public void actionPerformed(ActionEvent e) {
 	    	    		try {
-		    	    		viewListener.selectPiece(currentRow, currentColumn);
+	    	    			viewListener.selectPiece(currentRow, currentColumn);
 		    	    	} catch (IOException ex) {
 		    	    		showIOError();
 		    	    	}
@@ -125,6 +125,17 @@ public class CheckersGUI implements ModelListener {
 			JOptionPane.ERROR_MESSAGE);
 	}
 
+	public void yourTurn() {}
+
+	/**
+	 * Check whether it's my turn to move.
+	 *
+	 * @return boolean True if it's my turn, false otherwise.
+	 */
+	public boolean isMyTurn() {
+		return false;
+	}
+
 	/**
 	 * Determines the background color to be used
 	 *
@@ -146,9 +157,16 @@ public class CheckersGUI implements ModelListener {
 	 */
 	private void illegalMoveError() {
 		JOptionPane.showMessageDialog(frame, "Illegal Move",
-				"Illegal move. Try again", JOptionPane.ERROR_MESSAGE);
+			"Illegal move. Try again", JOptionPane.ERROR_MESSAGE);
 	}
 
+	/**
+	 * Show a dialog stating that it's not my turn.
+	 */
+	private void notMyTurn() {
+		JOptionPane.showMessageDialog(frame, "Not your turn",
+			"It's not your turn yet.", JOptionPane.ERROR_MESSAGE);
+	}
 
 	/**
 	 * Print an I/O error message to standard error and terminate.

@@ -72,7 +72,6 @@ public class ModelProxy implements ViewListener {
         out.flush();
     }
 
-
     /**
      * Select a checker piece on the game board.
      *
@@ -82,9 +81,11 @@ public class ModelProxy implements ViewListener {
      * @exception IOException Thrown if an I/O error occurs.
      */
     public void selectPiece(int row, int column) throws IOException {
-        String message = "s " + row + " " + column;
-        out.println(message);
-        out.flush();
+        if (modelListener.isMyTurn()) {
+            String message = "s " + row + " " + column;
+            out.println(message);
+            out.flush();
+        }
     }
 
     /**
@@ -115,6 +116,8 @@ public class ModelProxy implements ViewListener {
 
                     if (message.equals("e")) {
                         modelListener.tooManyPlayers();
+                    } else if (message.equals("t")) {
+                        modelListener.yourTurn();
                     }
                 }
             } catch (IOException ex) {

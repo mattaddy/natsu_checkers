@@ -62,7 +62,6 @@ public class SessionManager implements ViewListener {
      */
     public void selectPiece(int row, int column) {}
 
-
     /**
      * Perform any necessary cleanup when the application closes.
      *

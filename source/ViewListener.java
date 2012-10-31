@@ -39,6 +39,7 @@ public interface ViewListener {
 	 */
 	public void selectPiece(int row, int column) throws IOException;
 
+
 	/**
 	 * Perform any necessary cleanup when the application closes.
 	 *

@@ -45,4 +45,16 @@ public interface ModelListener {
 	 * Too many players are connected.
 	 */
 	public void tooManyPlayers() throws IOException;
+
+	/**
+	 * Tell the model that it's his or her turn.
+	 */
+	public void yourTurn() throws IOException;
+
+	/**
+	 * Check whether it's my turn to move.
+	 *
+	 * @return boolean True if it's my turn, false otherwise.
+	 */
+	public boolean isMyTurn();
 }

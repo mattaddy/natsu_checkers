@@ -15,6 +15,11 @@ public class CheckersModelClone implements ModelListener {
     private ModelListener modelListener;
 
     /**
+     * Is it my turn to make a move?
+     */
+    private boolean myTurn;
+
+    /**
      * The board of checkers for this model object.
      */
     private CheckerBoard board;
@@ -24,6 +29,7 @@ public class CheckersModelClone implements ModelListener {
      */
     public CheckersModelClone() {
         board = new CheckerBoard();
+        myTurn = false;
     }
 
     /**
@@ -52,6 +58,14 @@ public class CheckersModelClone implements ModelListener {
 
     public void tooManyPlayers() throws IOException {
         modelListener.tooManyPlayers();
+    }
+
+    public void yourTurn() {
+        myTurn = true;
+    }
+
+    public boolean isMyTurn() {
+        return myTurn;
     }
 
 }

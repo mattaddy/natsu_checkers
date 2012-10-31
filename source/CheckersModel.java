@@ -50,6 +50,12 @@ public class CheckersModel implements ViewListener {
 
             if (currentTurn == null) {
                 currentTurn = modelListener;
+
+                try {
+                    modelListener.yourTurn();
+                } catch (IOException ex) {
+
+                }
             }
         }
     }
@@ -91,7 +97,7 @@ public class CheckersModel implements ViewListener {
      */
     public synchronized void initializeBoard() {
         this.board = new CheckerBoard();
-   }
+    }
 
     /**
      * Perform any necessary cleanup when the application closes.
