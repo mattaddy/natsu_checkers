@@ -52,9 +52,13 @@ public class ViewProxy implements ModelListener {
      * messages.
      */
     public void setViewListener(ViewListener viewListener) {
-        this.viewListener = viewListener;
-        Thread t = new Thread(new ClientMessage());
-        t.start();
+        if (this.viewListener == null) {
+            this.viewListener = viewListener;
+            Thread t = new Thread(new ClientMessage());
+            t.start();
+        } else {
+            this.viewListener = viewListener;
+        }
     }
 
     public void playerJoined() throws IOException {}
@@ -90,6 +94,10 @@ public class ViewProxy implements ModelListener {
                     if (message.equals("j")) {
                         String sessionName = in.next();
                         viewListener.join(ViewProxy.this, sessionName);
+                    } else if (message.equals("s")) {
+                        int row = in.nextInt();
+                        int column = in.nextInt();
+                        viewListener.selectPiece(row, column);
                     }
                 }
             } catch (IOException ex) {

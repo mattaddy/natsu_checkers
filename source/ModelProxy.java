@@ -72,6 +72,33 @@ public class ModelProxy implements ViewListener {
         out.flush();
     }
 
+
+    /**
+     * Select a checker piece on the game board.
+     *
+     * @param row    The column of the piece to select.
+     * @param column The row of the piece to select.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
+    public void selectPiece(int row, int column) throws IOException {
+        String message = "s " + row + " " + column;
+        out.println(message);
+        out.flush();
+    }
+
+    /**
+     * Close the socket connection on this proxy object.
+     *
+     * @exception IOException Thrown if any errors occur during communication
+     *                        with the service.
+     */
+    public void close() throws IOException {
+        out.close();
+        in.close();
+        sock.close();
+    }
+
     /**
      * Class ServerMessage is responsible for receiving messages from the
      * server and sending appropriate updates to the ModelListener object.

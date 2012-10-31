@@ -51,16 +51,6 @@ public class CheckersModel implements ViewListener {
             if (currentTurn == null) {
                 currentTurn = modelListener;
             }
-
-            board.print();
-
-            // for (int row = 0; row < ROWS; row++) {
-            //     for (int column = 0; column < COLUMNS; column++) {
-            //         CheckerPiece piece = board.getPiece(row, column);
-            //         CheckerColor color = piece.getColor();
-            //         modelListener.setPiece(row, column, color);
-            //     }
-            // }
         }
     }
 
@@ -76,18 +66,38 @@ public class CheckersModel implements ViewListener {
         throws IOException {}
 
     /**
+     * Select a checker piece on the game board.
+     *
+     * @param row    The column of the piece to select.
+     * @param column The row of the piece to select.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
+    public synchronized void selectPiece(int row, int column) {
+        System.out.println("Selected piece: " + row + ", " + column);
+    }
+
+    /**
      * Check if there is room for another ModelListener in this model.
      *
      * @return boolean True if there is room, false otherwise.
      */
-    public boolean spaceAvailable() {
+    public synchronized boolean spaceAvailable() {
         return modelListeners.size() < MAX_LISTENERS;
     }
 
     /**
      * Initialize the game board.
      */
-    public void initializeBoard() {
-        board = new CheckerBoard();
-    }
+    public synchronized void initializeBoard() {
+        this.board = new CheckerBoard();
+   }
+
+    /**
+     * Perform any necessary cleanup when the application closes.
+     *
+     * @exception IOException Thrown if any errors occur during communication
+     *                        with the service.
+     */
+    public synchronized void close() {}
 }

@@ -53,18 +53,16 @@ public class CheckersGUI implements ModelListener {
 		    	boardButtons[row][column] = new JButton("");
     	        CheckerPiece piece = board.getPiece(row, column);
 
+    	        boardButtons[row][column].setOpaque(true);
+    	        boardButtons[row][column].setForeground(Color.WHITE);
+	        	boardButtons[row][column].setBorder(
+	        		BorderFactory.createLineBorder(Color.WHITE, 1));
+	        	boardButtons[row][column].setPreferredSize(new Dimension(60, 60));
+
     	        if (row % 2 == 0 && column % 2 == 0 || (row % 2 == 1 && column % 2 == 1)) {
-    	        	boardButtons[row][column].setOpaque(true);
     	        	boardButtons[row][column].setBackground(RED);
-    	        	boardButtons[row][column].setForeground(Color.WHITE);
-    	        	boardButtons[row][column].setBorder(
-    	        		BorderFactory.createLineBorder(Color.WHITE, 1));
     	        } else {
-    	        	boardButtons[row][column].setOpaque(true);
     	        	boardButtons[row][column].setBackground(BLACK);
-	    	        boardButtons[row][column].setForeground(Color.WHITE);
-	    	        boardButtons[row][column].setBorder(
-	    	        	BorderFactory.createLineBorder(Color.WHITE, 1));
     	        }
 
     	        if (piece != null) {
@@ -78,6 +76,19 @@ public class CheckersGUI implements ModelListener {
 	    	        		"checkersKCblack.png"));
 	    	        }
 	    	    }
+
+	    	    final int currentRow = row;
+	    	    final int currentColumn = column;
+
+	    	    boardButtons[row][column].addActionListener(new ActionListener() {
+	    	    	public void actionPerformed(ActionEvent e) {
+	    	    		try {
+		    	    		viewListener.selectPiece(currentRow, currentColumn);
+		    	    	} catch (IOException ex) {
+		    	    		showIOError();
+		    	    	}
+	    	    	}
+	    	    });
 
     	        buttonPanel.add(boardButtons[row][column]);
 		    }
@@ -136,5 +147,20 @@ public class CheckersGUI implements ModelListener {
 	private void illegalMoveError() {
 		JOptionPane.showMessageDialog(frame, "Illegal Move",
 				"Illegal move. Try again", JOptionPane.ERROR_MESSAGE);
+	}
+
+
+	/**
+	 * Print an I/O error message to standard error and terminate.
+	 */
+	private void showIOError() {
+	    try {
+	        System.err.println("Error communicating with the server. Exiting.");
+	        viewListener.close();
+	    } catch (IOException ex) {
+
+	    } finally {
+	        System.exit(0);
+	    }
 	}
 }

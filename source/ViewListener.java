@@ -29,4 +29,22 @@ public interface ViewListener {
 	public void join(ViewProxy viewProxy, String sessionName)
 		throws IOException;
 
+	/**
+	 * Select a checker piece on the game board.
+	 *
+	 * @param row    The column of the piece to select.
+	 * @param column The row of the piece to select.
+	 *
+	 * @exception IOException Thrown if an I/O error occurs.
+	 */
+	public void selectPiece(int row, int column) throws IOException;
+
+	/**
+	 * Perform any necessary cleanup when the application closes.
+	 *
+	 * @exception IOException Thrown if any errors occur during communication
+	 *                        with the service.
+	 */
+	public void close() throws IOException;
+
 }
