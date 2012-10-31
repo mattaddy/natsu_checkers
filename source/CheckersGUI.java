@@ -136,6 +136,8 @@ public class CheckersGUI implements ModelListener {
 		return false;
 	}
 
+	public void pieceSelected(int row, int column) {}
+
 	/**
 	 * Determines the background color to be used
 	 *

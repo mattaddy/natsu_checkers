@@ -118,6 +118,10 @@ public class ModelProxy implements ViewListener {
                         modelListener.tooManyPlayers();
                     } else if (message.equals("t")) {
                         modelListener.yourTurn();
+                    } else if (message.equals("p")) {
+                        int row = in.nextInt();
+                        int column = in.nextInt();
+                        modelListener.pieceSelected(row, column);
                     }
                 }
             } catch (IOException ex) {

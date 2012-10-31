@@ -27,6 +27,16 @@ public class CheckersModel implements ViewListener {
     private ModelListener currentTurn;
 
     /**
+     * The row of the currently selected piece.
+     */
+    private int selectedRow;
+
+    /**
+     * The column of the currently selected piece.
+     */
+    private int selectedColumn;
+
+    /**
      * The board of checkers for this model object.
      */
     private CheckerBoard board;
@@ -81,6 +91,19 @@ public class CheckersModel implements ViewListener {
      */
     public synchronized void selectPiece(int row, int column) {
         System.out.println("Selected piece: " + row + ", " + column);
+
+        selectedRow = row;
+        selectedColumn = column;
+
+        try {
+            Iterator it = modelListeners.iterator();
+            while (it.hasNext()) {
+                ModelListener modelListener = (ModelListener) it.next();
+                modelListener.pieceSelected(selectedRow, selectedColumn);
+            }
+        } catch (IOException ex) {
+
+        }
     }
 
     /**

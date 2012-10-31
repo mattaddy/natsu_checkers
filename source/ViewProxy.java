@@ -83,6 +83,20 @@ public class ViewProxy implements ModelListener {
     }
 
     /**
+     * Report that a piece has successfully been selected.
+     *
+     * @param row    The row of the selected piece.
+     * @param column The column of the selected piece.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
+    public void pieceSelected(int row, int column) throws IOException {
+        String message = "p " + row + " " + column;
+        out.println(message);
+        out.flush();
+    }
+
+    /**
      * Check whether it's my turn to move.
      *
      * @return boolean True if it's my turn, false otherwise.

@@ -20,6 +20,16 @@ public class CheckersModelClone implements ModelListener {
     private boolean myTurn;
 
     /**
+     * The row of the currently selected piece.
+     */
+    private int selectedRow;
+
+    /**
+     * The column of the currently selected piece.
+     */
+    private int selectedColumn;
+
+    /**
      * The board of checkers for this model object.
      */
     private CheckerBoard board;
@@ -66,6 +76,13 @@ public class CheckersModelClone implements ModelListener {
 
     public boolean isMyTurn() {
         return myTurn;
+    }
+
+    public void pieceSelected(int row, int column) {
+        selectedRow = row;
+        selectedColumn = column;
+
+        System.out.println("Successfully selected the piece at " + row + ", " + column);
     }
 
 }
