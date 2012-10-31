@@ -21,6 +21,11 @@ public class CheckersModel implements ViewListener {
     private ArrayList<ModelListener> modelListeners;
 
     /**
+     * The board of checkers for this model object.
+     */
+    private CheckerBoard board;
+
+    /**
      * Construct a CheckersModel object.
      */
     public CheckersModel() {
@@ -36,6 +41,11 @@ public class CheckersModel implements ViewListener {
     public synchronized void addModelListener(ModelListener modelListener) {
         if (modelListeners.size() < MAX_LISTENERS) {
             modelListeners.add(modelListener);
+
+            // debug print
+            board.print();
+
+            // send current state of the board to the model listeners (client)
         }
     }
 
@@ -60,10 +70,10 @@ public class CheckersModel implements ViewListener {
     }
 
     /**
-     *
+     * Initialize the game board.
      */
     public void initializeBoard() {
-
+        board = new CheckerBoard();
     }
 
 }
