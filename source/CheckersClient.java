@@ -26,7 +26,7 @@ public class CheckersClient {
             sock.connect(new InetSocketAddress(host, port), 5000);
 
             CheckersModelClone modelClone = new CheckersModelClone();
-            CheckersGUI ui = new CheckersGUI();
+            CheckersGUI ui = new CheckersGUI(modelClone.getBoard());
             ModelProxy modelProxy = new ModelProxy(sock);
 
             ui.setViewListener(modelProxy);

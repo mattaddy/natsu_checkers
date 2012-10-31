@@ -15,9 +15,16 @@ public class CheckersModelClone implements ModelListener {
     private ModelListener modelListener;
 
     /**
+     * The board of checkers for this model object.
+     */
+    private CheckerBoard board;
+
+    /**
      * Construct a CheckersModelClone object.
      */
-    public CheckersModelClone() {}
+    public CheckersModelClone() {
+        board = new CheckerBoard();
+    }
 
     /**
      * Set the ModelListener object for this model clone.
@@ -26,6 +33,15 @@ public class CheckersModelClone implements ModelListener {
      */
     public void setModelListener(ModelListener modelListener) {
         this.modelListener = modelListener;
+    }
+
+    /**
+     * Get the CheckerBoard for this CheckersModel object.
+     *
+     * @return CheckerBoard The board for this model.
+     */
+    public CheckerBoard getBoard() {
+        return board;
     }
 
     public void playerJoined() {}

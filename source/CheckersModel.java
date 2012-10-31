@@ -21,6 +21,12 @@ public class CheckersModel implements ViewListener {
     private ArrayList<ModelListener> modelListeners;
 
     /**
+     * The ModelListener object who can make changes to the board right now.
+     * Eseentially, this is the current players turn.
+     */
+    private ModelListener currentTurn;
+
+    /**
      * The board of checkers for this model object.
      */
     private CheckerBoard board;
@@ -42,10 +48,19 @@ public class CheckersModel implements ViewListener {
         if (modelListeners.size() < MAX_LISTENERS) {
             modelListeners.add(modelListener);
 
-            // debug print
+            if (currentTurn == null) {
+                currentTurn = modelListener;
+            }
+
             board.print();
 
-            // send current state of the board to the model listeners (client)
+            // for (int row = 0; row < ROWS; row++) {
+            //     for (int column = 0; column < COLUMNS; column++) {
+            //         CheckerPiece piece = board.getPiece(row, column);
+            //         CheckerColor color = piece.getColor();
+            //         modelListener.setPiece(row, column, color);
+            //     }
+            // }
         }
     }
 
@@ -75,5 +90,4 @@ public class CheckersModel implements ViewListener {
     public void initializeBoard() {
         board = new CheckerBoard();
     }
-
 }

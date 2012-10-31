@@ -1,28 +1,16 @@
 /**
  *
  */
-import java.awt.Color;
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
 import java.io.IOException;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 /**
  * CheckersGUI - the GUI for the checkers game
  *
- * @author Allan Liburd - abl2114
+ * @author Allan Liburd <abl2114@rit.edu>
+ * @author Matt Addy <mxa5942@rit.edu>
  */
 public class CheckersGUI implements ModelListener {
 
@@ -33,17 +21,16 @@ public class CheckersGUI implements ModelListener {
 
 	private JFrame frame;
 
-	private JButton[] board;
+	private JButton[][] boardButtons;
 	private final Color BLACK = Color.BLACK;
 	private final Color RED = Color.RED;
-	private final int size = 64;
 
 	private JButton quitButton;
 
 	/**
 	 * The CheckersGUI constructor
 	 */
-	public CheckersGUI() {
+	public CheckersGUI(CheckerBoard board) {
 
 		frame = new JFrame("Nastu: Checkers App");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,31 +43,44 @@ public class CheckersGUI implements ModelListener {
 		mainPanel.setLayout(flow);
 
 		// Create an 8 x 8 board
-		board = new JButton[size];
-		GridLayout buttonGrid = new GridLayout(8, 8);
+		boardButtons = new JButton[CheckerBoard.ROWS][CheckerBoard.COLUMNS];
+		GridLayout buttonGrid = new GridLayout(CheckerBoard.ROWS,
+			CheckerBoard.COLUMNS);
 		buttonPanel.setLayout(buttonGrid);
 
-		for (int x = 0; x < board.length; x++) {
-			board[x] = new JButton("");
-			Color temp = determineColor(x);
-			board[x].setBackground(temp);
-			if (temp == RED) {
-				board[x].addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent ae) {
-						illegalMoveError();
-					}
-				});
-			} else {
-				// could ask the model for the color, or create a board class
-				// that's shared between model and view
-				board[x].setIcon(new ImageIcon("checkersKCblack.png"));
-				board[x].addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent ae) {
-						// smthg
-					}
-				});
-			}
-			buttonPanel.add(board[x]);
+		for (int row = 0; row < CheckerBoard.ROWS; row++) {
+		    for (int column = 0; column < CheckerBoard.COLUMNS; column++) {
+		    	boardButtons[row][column] = new JButton("");
+    	        CheckerPiece piece = board.getPiece(row, column);
+
+    	        if (row % 2 == 0 && column % 2 == 0 || (row % 2 == 1 && column % 2 == 1)) {
+    	        	boardButtons[row][column].setOpaque(true);
+    	        	boardButtons[row][column].setBackground(RED);
+    	        	boardButtons[row][column].setForeground(Color.WHITE);
+    	        	boardButtons[row][column].setBorder(
+    	        		BorderFactory.createLineBorder(Color.WHITE, 1));
+    	        } else {
+    	        	boardButtons[row][column].setOpaque(true);
+    	        	boardButtons[row][column].setBackground(BLACK);
+	    	        boardButtons[row][column].setForeground(Color.WHITE);
+	    	        boardButtons[row][column].setBorder(
+	    	        	BorderFactory.createLineBorder(Color.WHITE, 1));
+    	        }
+
+    	        if (piece != null) {
+	    	        CheckerColor color = piece.getColor();
+
+	    	        if (color == CheckerColor.RED) {
+						boardButtons[row][column].setIcon(new ImageIcon(
+							"checkersKCred.png"));
+	    	        } else if (color == CheckerColor.BLACK) {
+	    	        	boardButtons[row][column].setIcon(new ImageIcon(
+	    	        		"checkersKCblack.png"));
+	    	        }
+	    	    }
+
+    	        buttonPanel.add(boardButtons[row][column]);
+		    }
 		}
 
 		mainPanel.add(buttonPanel);

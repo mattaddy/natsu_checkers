@@ -2,6 +2,7 @@
  * Class CheckerPiece represents a single checker on a checker board.
  *
  * @author Matt Addy <mxa5942@rit.edu>
+ * @author Allan Liburd <abl2114@rit.edu>
  */
 public class CheckerPiece {
 

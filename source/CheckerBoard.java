@@ -9,12 +9,12 @@ public class CheckerBoard {
     /**
      * The number of rows on the checkerboard.
      */
-    private static final int ROWS = 8;
+    public static final int ROWS = 8;
 
     /**
      * The number of columns on the checkerboard.
      */
-    private static final int COLUMNS = 8;
+    public static final int COLUMNS = 8;
 
     /**
      * The collection of checker pieces on this board.
@@ -40,6 +40,21 @@ public class CheckerBoard {
         }
     }
 
+    /**
+     * Get a checker piece at the specified location on the board.
+     *
+     * @param row    The row of the specified piece.
+     * @param column The column of the specified piece.
+     *
+     * @return CheckerPiece The piece at the specified location.
+     */
+    public CheckerPiece getPiece(int row, int column) {
+        return pieces[row][column];
+    }
+
+    /**
+     * Print the CheckerBoard (USED FOR DEBUGGING).
+     */
     public void print() {
         for (int column = 0; column < COLUMNS; column++) {
             for (int row = 0; row < ROWS; row++) {

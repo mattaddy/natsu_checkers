@@ -59,6 +59,11 @@ public class ViewProxy implements ModelListener {
 
     public void playerJoined() throws IOException {}
 
+    /**
+     * Report that the current state of the CheckersBoard has changed.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
     public void boardChanged() throws IOException {}
 
     public void illegalMove() throws IOException {}
