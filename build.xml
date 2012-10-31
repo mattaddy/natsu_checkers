@@ -1,12 +1,15 @@
 <?xml version="1.0" ?>
-<project name="natsu_checkers" default="main">
+<project name="Checkers" default="main">
     <property name="source.dir"   value="source/" />
     <property name="classes.dir"  value="classes" />
     <property name="jar.dir"      value="${classes.dir}/jar"/>
-    <property name="main-class"   value="CheckersClient" />
+    <property name="main-class"   value="CheckersServer" />
 
     <target name="clean" description="Remove intermediate files">
-        <delete dir="${classes.dir}" />
+        <delete>
+            <fileset dir="${classes.dir}" includes="**/*.class" />
+            <fileset dir="${classes.dir}" includes="**/*.jar" />
+        </delete>
     </target>
 
     <target name="compile">
@@ -24,7 +27,10 @@
     </target>
 
     <target name="run" depends="jar">
-        <java jar="${jar.dir}/${ant.project.name}.jar" fork="true"/>
+        <java jar="${jar.dir}/${ant.project.name}.jar" fork="true">
+            <arg value="localhost" />
+            <arg value="1234" />
+        </java>
     </target>
 
     <target name="main" depends="clean,run" />

@@ -59,4 +59,11 @@ public class CheckersModel implements ViewListener {
         return modelListeners.size() < MAX_LISTENERS;
     }
 
+    /**
+     *
+     */
+    public void initializeBoard() {
+
+    }
+
 }

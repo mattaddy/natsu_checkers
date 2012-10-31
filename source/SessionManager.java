@@ -40,6 +40,7 @@ public class SessionManager implements ViewListener {
         if (model == null) {
             model = new CheckersModel();
             sessions.put(sessionName, model);
+            model.initializeBoard();
         }
 
         if (model.spaceAvailable()) {
