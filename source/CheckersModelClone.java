@@ -40,6 +40,8 @@ public class CheckersModelClone implements ModelListener {
     public CheckersModelClone() {
         board = new CheckerBoard();
         myTurn = false;
+        selectedRow = -1;
+        selectedColumn = -1;
     }
 
     /**
@@ -72,6 +74,7 @@ public class CheckersModelClone implements ModelListener {
 
     public void yourTurn() {
         myTurn = true;
+        System.out.println("My turn.");
     }
 
     public boolean isMyTurn() {
@@ -81,8 +84,10 @@ public class CheckersModelClone implements ModelListener {
     public void pieceSelected(int row, int column) {
         selectedRow = row;
         selectedColumn = column;
+    }
 
-        System.out.println("Successfully selected the piece at " + row + ", " + column);
+    public boolean isPieceSelected() {
+        return selectedRow != -1 && selectedColumn != -1;
     }
 
 }

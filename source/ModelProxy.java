@@ -89,6 +89,22 @@ public class ModelProxy implements ViewListener {
     }
 
     /**
+     * Move a checker piece on the game board.
+     *
+     * @param row    The column of the piece to select.
+     * @param column The row of the piece to select.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
+    public void movePiece(int row, int column) throws IOException {
+        if (modelListener.isPieceSelected()) {
+            String message = "m " + row + " " + column;
+            out.println(message);
+            out.flush();
+        }
+    }
+
+    /**
      * Close the socket connection on this proxy object.
      *
      * @exception IOException Thrown if any errors occur during communication

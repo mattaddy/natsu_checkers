@@ -106,6 +106,17 @@ public class ViewProxy implements ModelListener {
     }
 
     /**
+     * Determine whether there is a piece currently selected on the board.
+     *
+     * @return boolean True if there is a piece selected, false otherwise.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
+    public boolean isPieceSelected() {
+        return false;
+    }
+
+    /**
      * Class ClientMessage is responsible for receiving messages from the
      * remote client and sending messages to the ViewListener object.
      *
@@ -126,6 +137,10 @@ public class ViewProxy implements ModelListener {
                         int row = in.nextInt();
                         int column = in.nextInt();
                         viewListener.selectPiece(row, column);
+                    } else if (message.equals("m")) {
+                        int row = in.nextInt();
+                        int column = in.nextInt();
+                        viewListener.movePiece(row, column);
                     }
                 }
             } catch (IOException ex) {

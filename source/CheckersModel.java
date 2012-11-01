@@ -22,7 +22,7 @@ public class CheckersModel implements ViewListener {
 
     /**
      * The ModelListener object who can make changes to the board right now.
-     * Eseentially, this is the current players turn.
+     * Eseentially, this is the player who's turn it is.
      */
     private ModelListener currentTurn;
 
@@ -46,6 +46,8 @@ public class CheckersModel implements ViewListener {
      */
     public CheckersModel() {
         modelListeners = new ArrayList<ModelListener>(MAX_LISTENERS);
+        selectedRow = -1;
+        selectedColumn = -1;
     }
 
     /**
@@ -103,6 +105,38 @@ public class CheckersModel implements ViewListener {
             }
         } catch (IOException ex) {
 
+        }
+    }
+
+    /**
+     * Move a checker piece on the game board.
+     *
+     * @param row    The column of the piece to select.
+     * @param column The row of the piece to select.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
+    public void movePiece(int row, int column) {
+        if (selectedRow != -1 && selectedColumn != -1) {
+            if ((row == selectedRow + 1) && (column == selectedColumn + 1 || column == selectedColumn - 1)) {
+                System.out.println("Moving (" + selectedRow + ", " + selectedColumn + ") to (" + selectedRow + 1 + ", " + selectedColumn + 1 + ").");
+
+                try {
+                    if (modelListeners.get(0).equals(currentTurn)) {
+                        currentTurn = modelListeners.get(1);
+                        modelListeners.get(1).yourTurn();
+                    } else {
+                        currentTurn = modelListeners.get(0);
+                        modelListeners.get(0).yourTurn();
+                    }
+                } catch (IOException ex) {
+
+                }
+
+            } else {
+                System.out.println("Invalid move.");
+
+            }
         }
     }
 

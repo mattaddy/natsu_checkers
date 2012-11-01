@@ -68,4 +68,11 @@ public interface ModelListener {
 	 * @exception IOException Thrown if an I/O error occurs
 	 */
 	public void pieceSelected(int row, int column) throws IOException;
+
+	/**
+	 * Determine whether there is a piece currently selected on the board.
+	 *
+	 * @return boolean True if there is a piece selected, false otherwise.
+	 */
+	public boolean isPieceSelected();
 }
