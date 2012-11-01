@@ -1,19 +1,11 @@
-//******************************************************************************
-//
-// File:    ModelListener.java
-// Package: ---
-// Unit:    Interface ViewListener
-//
-//******************************************************************************
-
 import java.io.IOException;
 
 /**
  * Interface ModelListener specifies the interface for an object that is
  * triggered by events from the model object in the Checkers Game
  *
- * @author Allan Liburd - abl2114
- * @version 25-Oct-2012
+ * @author Matt Addy <mxa5942@rit.edu>
+ * @author Allan Liburd <abl2114@rit.edu>
  */
 public interface ModelListener {
 

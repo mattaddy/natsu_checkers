@@ -117,9 +117,9 @@ public class CheckersModel implements ViewListener {
      * @exception IOException Thrown if an I/O error occurs.
      */
     public void movePiece(int row, int column) {
-        if (selectedRow != -1 && selectedColumn != -1) {
-            if ((row == selectedRow + 1) && (column == selectedColumn + 1 || column == selectedColumn - 1)) {
-                System.out.println("Moving (" + selectedRow + ", " + selectedColumn + ") to (" + selectedRow + 1 + ", " + selectedColumn + 1 + ").");
+        if (modelListeners.size() == 2 && selectedRow != -1 && selectedColumn != -1) {
+            if ((row == selectedRow + 1 || row == selectedRow - 1) && (column == selectedColumn + 1 || column == selectedColumn - 1)) {
+                System.out.println("Moving (" + selectedRow + ", " + selectedColumn + ") to (" + row + ", " + column + ").");
 
                 try {
                     if (modelListeners.get(0).equals(currentTurn)) {
