@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 /**
  * Class CheckerBoard represents the current state of the board for a game of
  * checkers.
@@ -31,9 +33,9 @@ public class CheckerBoard {
             for (int column = 0; column < COLUMNS; column++) {
                 if (row % 2 == column % 2) {
                     if (row <= 2) {
-                        pieces[row][column] = new CheckerPiece(CheckerColor.BLACK);
+                        pieces[row][column] = new CheckerPiece(Color.BLACK);
                     } else if (row >= (COLUMNS - 3)) {
-                        pieces[row][column] = new CheckerPiece(CheckerColor.RED);
+                        pieces[row][column] = new CheckerPiece(Color.RED);
                     }
                 }
             }

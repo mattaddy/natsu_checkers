@@ -1,3 +1,5 @@
+import java.awt.Color;
+
 /**
  * Class CheckerPiece represents a single checker on a checker board.
  *
@@ -9,12 +11,12 @@ public class CheckerPiece {
     /**
      * The color of this piece.
      */
-    private CheckerColor color;
+    private Color color;
 
     /**
      * Construct a CheckerPiece object.
      */
-    public CheckerPiece(CheckerColor color) {
+    public CheckerPiece(Color color) {
         this.color = color;
     }
 
@@ -23,7 +25,7 @@ public class CheckerPiece {
      *
      * @return Color The color for this CheckerPiece.
      */
-    public CheckerColor getColor() {
+    public Color getColor() {
         return color;
     }
 

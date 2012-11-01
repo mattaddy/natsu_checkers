@@ -3,18 +3,18 @@ import java.net.*;
 import java.util.*;
 
 /**
- * Class ViewProxy provides a local representative for the remote client view
- * object. ViewProxy is responsible for sending and accepting encoded messages
- * to and from the associated remote client object.
+ * Class PlayerProxy provides a local representative for the remote client
+ * player object. PlayerProxy is responsible for sending and accepting encoded
+ * messages to and from the associated remote player object.
  *
  * @author Matt Addy <mxa5942@rit.edu>
  * @author Allan Liburd <abl2114@rit.edu>
  */
-public class ViewProxy implements ModelListener {
+public class PlayerProxy implements ModelListener {
 
     /**
      * The connection used when sending and receiving encoded messages to the
-     * remote client (view) object.
+     * remote player object.
      */
     private Socket sock;
 
@@ -35,13 +35,13 @@ public class ViewProxy implements ModelListener {
     private ViewListener viewListener;
 
     /**
-     * Construct a ViewProxy object.
+     * Construct a PlayerProxy object.
      *
      * @param sock The socket to use when communicating with the remote client.
      *
      * @exception IOException Thrown if an I/O error occurs.
      */
-    public ViewProxy(Socket sock) throws IOException {
+    public PlayerProxy(Socket sock) throws IOException {
         this.sock = sock;
         this.out = new PrintWriter(sock.getOutputStream());
         this.in = new Scanner(sock.getInputStream());
@@ -50,6 +50,8 @@ public class ViewProxy implements ModelListener {
     /**
      * Set the ViewListener object for this Proxy and start listening to
      * messages.
+     *
+     * @param viewListener The ViewListener for this proxy.
      */
     public void setViewListener(ViewListener viewListener) {
         if (this.viewListener == null) {
@@ -61,38 +63,23 @@ public class ViewProxy implements ModelListener {
         }
     }
 
-    public void playerJoined() throws IOException {}
-
     /**
-     * Report that the current state of the CheckersBoard has changed.
+     * Too many players are connected.
      *
-     * @exception IOException Thrown if an I/O error occurs.
+     * @exception IOException Thrown if an I/O error occurs
      */
-    public void boardChanged() throws IOException {}
-
-    public void illegalMove() throws IOException {}
-
     public void tooManyPlayers() throws IOException {
         out.println("e");
         out.flush();
     }
 
+    /**
+     * Tell the model that it's his or her turn.
+     *
+     * @exception IOException Thrown if an I/O error occurs
+     */
     public void yourTurn() throws IOException {
         out.println("t");
-        out.flush();
-    }
-
-    /**
-     * Report that a piece has successfully been selected.
-     *
-     * @param row    The row of the selected piece.
-     * @param column The column of the selected piece.
-     *
-     * @exception IOException Thrown if an I/O error occurs.
-     */
-    public void pieceSelected(int row, int column) throws IOException {
-        String message = "p " + row + " " + column;
-        out.println(message);
         out.flush();
     }
 
@@ -117,6 +104,20 @@ public class ViewProxy implements ModelListener {
     }
 
     /**
+     * Report that a piece has successfully been selected.
+     *
+     * @param row    The row of the selected piece.
+     * @param column The column of the selected piece.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
+    public void pieceSelected(int row, int column) throws IOException {
+        String message = "p " + row + " " + column;
+        out.println(message);
+        out.flush();
+    }
+
+    /**
      * Class ClientMessage is responsible for receiving messages from the
      * remote client and sending messages to the ViewListener object.
      *
@@ -132,11 +133,11 @@ public class ViewProxy implements ModelListener {
 
                     if (message.equals("j")) {
                         String sessionName = in.next();
-                        viewListener.join(ViewProxy.this, sessionName);
+                        viewListener.join(PlayerProxy.this, sessionName);
                     } else if (message.equals("s")) {
                         int row = in.nextInt();
                         int column = in.nextInt();
-                        viewListener.selectPiece(row, column);
+                        viewListener.selectPiece(PlayerProxy.this, row, column);
                     } else if (message.equals("m")) {
                         int row = in.nextInt();
                         int column = in.nextInt();

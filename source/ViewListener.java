@@ -21,23 +21,25 @@ public interface ViewListener {
 	/**
 	 * Join a game session by specifying the games unique identifier.
 	 *
-	 * @param viewProxy   The ViewProxy object.
+	 * @param PlayerProxy The PlayerProxy object.
 	 * @param sessionName The name of the session to join.
 	 *
 	 * @exception IOException Thrown if an I/O error occurs.
 	 */
-	public void join(ViewProxy viewProxy, String sessionName)
+	public void join(PlayerProxy playerProxy, String sessionName)
 		throws IOException;
 
 	/**
 	 * Select a checker piece on the game board.
 	 *
-	 * @param row    The column of the piece to select.
-	 * @param column The row of the piece to select.
+	 * @param modelListener The ModelListener object making the request.
+ 	 * @param row           The column of the piece to select.
+	 * @param column        The row of the piece to select.
 	 *
 	 * @exception IOException Thrown if an I/O error occurs.
 	 */
-	public void selectPiece(int row, int column) throws IOException;
+	public void selectPiece(ModelListener modelListener, int row, int column)
+		throws IOException;
 
 	/**
 	 * Move a checker piece on the game board.

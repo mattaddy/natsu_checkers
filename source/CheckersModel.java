@@ -13,28 +13,22 @@ public class CheckersModel implements ViewListener {
     /**
      * How many ModelListener objects can be listening to this model at a time.
      */
-    private static final int MAX_LISTENERS = 2;
+    private static final int MAX_PLAYERS = 2;
 
     /**
      * The collection of ModelListener objects to send updates to.
      */
-    private ArrayList<ModelListener> modelListeners;
+    private HashMap<ModelListener, Player> modelListeners;
 
     /**
-     * The ModelListener object who can make changes to the board right now.
-     * Eseentially, this is the player who's turn it is.
+     * The player who's allowed to make changes to the board.
      */
-    private ModelListener currentTurn;
+    private Player currentTurn;
 
     /**
-     * The row of the currently selected piece.
+     * The currently selected piece, if there is one.
      */
-    private int selectedRow;
-
-    /**
-     * The column of the currently selected piece.
-     */
-    private int selectedColumn;
+    private CheckerPiece selectedPiece;
 
     /**
      * The board of checkers for this model object.
@@ -45,9 +39,8 @@ public class CheckersModel implements ViewListener {
      * Construct a CheckersModel object.
      */
     public CheckersModel() {
-        modelListeners = new ArrayList<ModelListener>(MAX_LISTENERS);
-        selectedRow = -1;
-        selectedColumn = -1;
+        modelListeners = new HashMap<ModelListener, Player>(MAX_PLAYERS);
+        this.board = new CheckerBoard();
     }
 
     /**
@@ -57,17 +50,25 @@ public class CheckersModel implements ViewListener {
      * @param modelListener The ModelListener object to add.
      */
     public synchronized void addModelListener(ModelListener modelListener) {
-        if (modelListeners.size() < MAX_LISTENERS) {
-            modelListeners.add(modelListener);
+        if (modelListeners.size() < MAX_PLAYERS) {
+
+            System.out.print("Player joined: ");
+
+            Player player;
+
+            if (modelListeners.size() == 0) {
+                player = new Player(Color.BLACK);
+                System.out.println("black.");
+            } else {
+                player = new Player(Color.RED);
+                System.out.println("red.");
+            }
+
+            modelListeners.put(modelListener, player);
 
             if (currentTurn == null) {
-                currentTurn = modelListener;
-
-                try {
-                    modelListener.yourTurn();
-                } catch (IOException ex) {
-
-                }
+                currentTurn = player;
+                System.out.println(player.getColor().toString() + "'s turn.");
             }
         }
     }
@@ -75,33 +76,47 @@ public class CheckersModel implements ViewListener {
     /**
      * Join a game session by specifying the games unique identifier.
      *
-     * @param viewProxy   The ViewProxy object.
+     * @param playerProxy The PlayerProxy object.
      * @param sessionName The name of the session to join.
      *
      * @exception IOException Thrown if an I/O error occurs.
      */
-    public void join(ViewProxy viewProxy, String sessionName)
+    public void join(PlayerProxy playerProxy, String sessionName)
         throws IOException {}
 
     /**
      * Select a checker piece on the game board.
      *
-     * @param row    The column of the piece to select.
-     * @param column The row of the piece to select.
+     * @param modelListener The ModelListener object making the request.
+     * @param row           The column of the piece to select.
+     * @param column        The row of the piece to select.
      *
      * @exception IOException Thrown if an I/O error occurs.
      */
-    public synchronized void selectPiece(int row, int column) {
-        System.out.println("Selected piece: " + row + ", " + column);
+    public synchronized void selectPiece(ModelListener modelListener, int row,
+        int column) {
 
-        selectedRow = row;
-        selectedColumn = column;
+        Player player = (Player) modelListeners.get(modelListener);
+        selectedPiece = board.getPiece(row, column);
+
+        if (currentTurn.equals(player)) {
+            if (player.getColor().equals(selectedPiece.getColor())) {
+                System.out.println("Selected piece: " + row + ", " + column);
+            } else {
+                System.out.println("You selected a piece that's not yours:");
+                System.out.println("Piece color: " + selectedPiece.getColor());
+                System.out.println("Your color : " + player.getColor());
+            }
+        } else {
+            System.out.println("It's not your turn!");
+        }
 
         try {
-            Iterator it = modelListeners.iterator();
+            Iterator it = modelListeners.entrySet().iterator();
             while (it.hasNext()) {
-                ModelListener modelListener = (ModelListener) it.next();
-                modelListener.pieceSelected(selectedRow, selectedColumn);
+                Map.Entry pairs = (Map.Entry) it.next();
+                ModelListener thisListener = (ModelListener) pairs.getKey();
+                thisListener.pieceSelected(row, column);
             }
         } catch (IOException ex) {
 
@@ -117,27 +132,27 @@ public class CheckersModel implements ViewListener {
      * @exception IOException Thrown if an I/O error occurs.
      */
     public void movePiece(int row, int column) {
-        if (modelListeners.size() == 2 && selectedRow != -1 && selectedColumn != -1) {
-            if ((row == selectedRow + 1 || row == selectedRow - 1) && (column == selectedColumn + 1 || column == selectedColumn - 1)) {
-                System.out.println("Moving (" + selectedRow + ", " + selectedColumn + ") to (" + row + ", " + column + ").");
+        // if (modelListeners.size() == 2 && selectedRow != -1 && selectedColumn != -1) {
+        //     if ((row == selectedRow + 1 || row == selectedRow - 1) && (column == selectedColumn + 1 || column == selectedColumn - 1)) {
+        //         System.out.println("Moving (" + selectedRow + ", " + selectedColumn + ") to (" + row + ", " + column + ").");
 
-                try {
-                    if (modelListeners.get(0).equals(currentTurn)) {
-                        currentTurn = modelListeners.get(1);
-                        modelListeners.get(1).yourTurn();
-                    } else {
-                        currentTurn = modelListeners.get(0);
-                        modelListeners.get(0).yourTurn();
-                    }
-                } catch (IOException ex) {
+        //         try {
+        //             if (modelListeners.get(0).equals(currentTurn)) {
+        //                 currentTurn = modelListeners.get(1);
+        //                 modelListeners.get(1).yourTurn();
+        //             } else {
+        //                 currentTurn = modelListeners.get(0);
+        //                 modelListeners.get(0).yourTurn();
+        //             }
+        //         } catch (IOException ex) {
 
-                }
+        //         }
 
-            } else {
-                System.out.println("Invalid move.");
+        //     } else {
+        //         System.out.println("Invalid move.");
 
-            }
-        }
+        //     }
+        // }
     }
 
     /**
@@ -146,14 +161,7 @@ public class CheckersModel implements ViewListener {
      * @return boolean True if there is room, false otherwise.
      */
     public synchronized boolean spaceAvailable() {
-        return modelListeners.size() < MAX_LISTENERS;
-    }
-
-    /**
-     * Initialize the game board.
-     */
-    public synchronized void initializeBoard() {
-        this.board = new CheckerBoard();
+        return modelListeners.size() < MAX_PLAYERS;
     }
 
     /**

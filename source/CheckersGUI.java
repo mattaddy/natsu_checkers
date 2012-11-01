@@ -69,12 +69,12 @@ public class CheckersGUI implements ModelListener {
                 final int currentColumn = column;
 
                 if (piece != null) {
-                    CheckerColor color = piece.getColor();
+                    Color color = piece.getColor();
 
-                    if (color == CheckerColor.RED) {
+                    if (color == Color.RED) {
                         boardButtons[row][column].setIcon(new ImageIcon(
                             "checkersKCred.png"));
-                    } else if (color == CheckerColor.BLACK) {
+                    } else if (color == Color.BLACK) {
                         boardButtons[row][column].setIcon(new ImageIcon(
                             "checkersKCblack.png"));
                     }
@@ -83,7 +83,7 @@ public class CheckersGUI implements ModelListener {
                         ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             try {
-                                viewListener.selectPiece(currentRow,
+                                viewListener.selectPiece(null, currentRow,
                                     currentColumn);
                             } catch (IOException ex) {
                                 showIOError();

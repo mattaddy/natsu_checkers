@@ -10,27 +10,6 @@ import java.io.IOException;
 public interface ModelListener {
 
 	/**
-	 * Reports that a player has joined the game session
-	 *
-	 * @exception IOException Thrown if an I/O error occurs
-	 */
-	public void playerJoined() throws IOException;
-
-	/**
-	 * Reports that the Checkers game board changed.
-	 *
-	 * @exception IOException Thrown if an I/O error occurs
-	 */
-	public void boardChanged() throws IOException;
-
-	/**
-	 * Reports that a wrong move was made
-	 *
-	 * @exception IOException Thrown if an I/O error occurs
-	 */
-	public void illegalMove() throws IOException;
-
-	/**
 	 * Too many players are connected.
 	 *
 	 * @exception IOException Thrown if an I/O error occurs

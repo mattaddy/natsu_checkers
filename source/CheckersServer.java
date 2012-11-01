@@ -28,9 +28,9 @@ public class CheckersServer {
 
             while (true) {
                 Socket sock = serverSock.accept();
-                ViewProxy viewProxy = new ViewProxy(sock);
+                PlayerProxy playerProxy = new PlayerProxy(sock);
 
-                viewProxy.setViewListener(manager);
+                playerProxy.setViewListener(manager);
             }
 
         } catch (NumberFormatException ex) {
