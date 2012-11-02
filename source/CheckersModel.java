@@ -52,23 +52,18 @@ public class CheckersModel implements ViewListener {
     public synchronized void addModelListener(ModelListener modelListener) {
         if (modelListeners.size() < MAX_PLAYERS) {
 
-            System.out.print("Player joined: ");
-
             Player player;
 
             if (modelListeners.size() == 0) {
                 player = new Player(Color.BLACK);
-                System.out.println("black.");
             } else {
                 player = new Player(Color.RED);
-                System.out.println("red.");
             }
 
             modelListeners.put(modelListener, player);
 
             if (currentTurn == null) {
                 currentTurn = player;
-                System.out.println(player.getColor().toString() + "'s turn.");
             }
         }
     }
@@ -101,58 +96,69 @@ public class CheckersModel implements ViewListener {
 
         if (currentTurn.equals(player)) {
             if (player.getColor().equals(selectedPiece.getColor())) {
-                System.out.println("Selected piece: " + row + ", " + column);
+                try {
+                    Iterator it = modelListeners.entrySet().iterator();
+                    while (it.hasNext()) {
+                        Map.Entry pairs = (Map.Entry) it.next();
+                        ModelListener thisListener = (ModelListener) pairs.getKey();
+                        thisListener.pieceSelected(row, column);
+                    }
+                } catch (IOException ex) {
+
+                }
             } else {
-                System.out.println("You selected a piece that's not yours:");
-                System.out.println("Piece color: " + selectedPiece.getColor());
-                System.out.println("Your color : " + player.getColor());
+                System.out.println("You selected a piece that's not yours.");
+                selectedPiece = null;
             }
         } else {
             System.out.println("It's not your turn!");
-        }
-
-        try {
-            Iterator it = modelListeners.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry pairs = (Map.Entry) it.next();
-                ModelListener thisListener = (ModelListener) pairs.getKey();
-                thisListener.pieceSelected(row, column);
-            }
-        } catch (IOException ex) {
-
+            selectedPiece = null;
         }
     }
 
     /**
      * Move a checker piece on the game board.
      *
-     * @param row    The column of the piece to select.
-     * @param column The row of the piece to select.
+     * @param modelListener The ModelListener object making the request.
+     * @param row           The column of the piece to move.
+     * @param column        The row of the piece to move.
      *
      * @exception IOException Thrown if an I/O error occurs.
      */
-    public void movePiece(int row, int column) {
-        // if (modelListeners.size() == 2 && selectedRow != -1 && selectedColumn != -1) {
-        //     if ((row == selectedRow + 1 || row == selectedRow - 1) && (column == selectedColumn + 1 || column == selectedColumn - 1)) {
-        //         System.out.println("Moving (" + selectedRow + ", " + selectedColumn + ") to (" + row + ", " + column + ").");
+    public synchronized void movePiece(ModelListener modelListener, int row,
+        int column) {
+        CheckerPiece piece = board.getPiece(row, column);
+        Player player = (Player) modelListeners.get(modelListener);
 
-        //         try {
-        //             if (modelListeners.get(0).equals(currentTurn)) {
-        //                 currentTurn = modelListeners.get(1);
-        //                 modelListeners.get(1).yourTurn();
-        //             } else {
-        //                 currentTurn = modelListeners.get(0);
-        //                 modelListeners.get(0).yourTurn();
-        //             }
-        //         } catch (IOException ex) {
+        // Make sure we have a selected piece and that desired location to
+        // move the piece to is empty.
+        if (currentTurn.equals(player) && selectedPiece != null && piece == null) {
+            if (selectedPiece.isValidMove(row, column)) {
 
-        //         }
+                board.movePiece(selectedPiece, row, column);
 
-        //     } else {
-        //         System.out.println("Invalid move.");
+                try {
+                    Iterator it = modelListeners.entrySet().iterator();
+                    boolean playerSwitched = false;
+                    while (it.hasNext()) {
+                        Map.Entry pairs = (Map.Entry) it.next();
+                        Player thisPlayer = (Player) pairs.getValue();
+                        ModelListener thisListener = (ModelListener) pairs.getKey();
+                        thisListener.pieceMoved(selectedPiece.getRow(), selectedPiece.getColumn(), row, column);
 
-        //     }
-        // }
+                        if (!currentTurn.equals(thisPlayer) && !playerSwitched) {
+                            currentTurn = thisPlayer;
+                            playerSwitched = true;
+                            System.out.println("Switching turns to " + thisPlayer);
+                        }
+                    }
+                } catch (IOException ex) {
+
+                }
+            } else {
+                System.out.println("Invalid move.");
+            }
+        }
     }
 
     /**

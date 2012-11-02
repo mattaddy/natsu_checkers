@@ -62,23 +62,8 @@ public class CheckersModelClone implements ModelListener {
         return board;
     }
 
-    public void playerJoined() {}
-
-    public void boardChanged() {}
-
-    public void illegalMove() {}
-
     public void tooManyPlayers() throws IOException {
         modelListener.tooManyPlayers();
-    }
-
-    public void yourTurn() {
-        myTurn = true;
-        System.out.println("My turn.");
-    }
-
-    public boolean isMyTurn() {
-        return myTurn;
     }
 
     public void pieceSelected(int row, int column) {
@@ -86,8 +71,22 @@ public class CheckersModelClone implements ModelListener {
         selectedColumn = column;
     }
 
-    public boolean isPieceSelected() {
-        return selectedRow != -1 && selectedColumn != -1;
+    /**
+     * Report that a piece has been moved.
+     *
+     * @param oldRow    The row the piece is being moved from.
+     * @param oldColumn The column the piece is being moved from.
+     * @param newRow    The row the piece is moving to.
+     * @param newColumn The column the piece is moving to.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
+    public void pieceMoved(int oldRow, int oldColumn, int newRow,
+        int newColumn) throws IOException {
+        CheckerPiece piece = board.getPiece(oldRow, oldColumn);
+        board.movePiece(piece, newRow, newColumn);
+        modelListener.pieceMoved(piece.getRow(), piece.getColumn(), newRow,
+            newColumn);
     }
 
 }

@@ -33,9 +33,9 @@ public class CheckerBoard {
             for (int column = 0; column < COLUMNS; column++) {
                 if (row % 2 == column % 2) {
                     if (row <= 2) {
-                        pieces[row][column] = new CheckerPiece(Color.BLACK);
+                        pieces[row][column] = new CheckerPiece(Color.BLACK, CheckerPiece.Direction.DOWN, row, column);
                     } else if (row >= (COLUMNS - 3)) {
-                        pieces[row][column] = new CheckerPiece(Color.RED);
+                        pieces[row][column] = new CheckerPiece(Color.RED, CheckerPiece.Direction.UP, row, column);
                     }
                 }
             }
@@ -52,6 +52,19 @@ public class CheckerBoard {
      */
     public CheckerPiece getPiece(int row, int column) {
         return pieces[row][column];
+    }
+
+    /**
+     * Move a piece on the board.
+     *
+     * @param piece  The piece to move.
+     * @param row    The row to move the piece to.
+     * @param column The column to move the piece to.
+     */
+    public void movePiece(CheckerPiece piece, int row, int column) {
+        CheckerPiece pieceToMove = pieces[piece.getRow()][piece.getColumn()];
+        pieces[row][column] = pieceToMove;
+        pieces[piece.getRow()][piece.getColumn()] = null;
     }
 
     /**

@@ -41,4 +41,12 @@ public class Player {
         return color.equals(otherPlayer.getColor());
     }
 
+    public String toString() {
+        if (color == Color.RED) {
+            return "Red.";
+        } else {
+            return "Black.";
+        }
+    }
+
 }

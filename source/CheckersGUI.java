@@ -96,7 +96,7 @@ public class CheckersGUI implements ModelListener {
                         ActionListener() {
                         public void actionPerformed(ActionEvent e) {
                             try {
-                                viewListener.movePiece(currentRow,
+                                viewListener.movePiece(null, currentRow,
                                     currentColumn);
                             } catch (IOException ex) {
                                 showIOError();
@@ -127,12 +127,6 @@ public class CheckersGUI implements ModelListener {
         this.viewListener = viewListener;
     }
 
-    public void playerJoined() {}
-
-    public void boardChanged() {}
-
-    public void illegalMove() {}
-
     public void tooManyPlayers() {
         JOptionPane.showMessageDialog(frame, "Too many players",
             "There are too many players in the specified session. Please "
@@ -140,21 +134,23 @@ public class CheckersGUI implements ModelListener {
             JOptionPane.ERROR_MESSAGE);
     }
 
-    public void yourTurn() {}
-
-    /**
-     * Check whether it's my turn to move.
-     *
-     * @return boolean True if it's my turn, false otherwise.
-     */
-    public boolean isMyTurn() {
-        return false;
-    }
-
     public void pieceSelected(int row, int column) {}
 
-    public boolean isPieceSelected() {
-        return false;
+    /**
+     * Report that a piece has been moved.
+     *
+     * @param oldRow    The row the piece is being moved from.
+     * @param oldColumn The column the piece is being moved from.
+     * @param newRow    The row the piece is moving to.
+     * @param newColumn The column the piece is moving to.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
+    public void pieceMoved(int oldRow, int oldColumn, int newRow,
+        int newColumn) {
+        Icon i = boardButtons[oldRow][oldColumn].getIcon();
+        boardButtons[oldRow][oldColumn].setIcon(null);
+        boardButtons[newRow][newColumn].setIcon(i);
     }
 
     /**

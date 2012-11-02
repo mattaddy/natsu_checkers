@@ -65,12 +65,13 @@ public class SessionManager implements ViewListener {
     /**
      * Move a checker piece on the game board.
      *
-     * @param row    The column of the piece to select.
-     * @param column The row of the piece to select.
+     * @param modelListener The ModelListener object making the request.
+     * @param row           The column of the piece to move.
+     * @param column        The row of the piece to move.
      *
      * @exception IOException Thrown if an I/O error occurs.
      */
-    public void movePiece(int row, int column) { }
+    public void movePiece(ModelListener modelListener, int row, int column) {}
 
     /**
      * Perform any necessary cleanup when the application closes.

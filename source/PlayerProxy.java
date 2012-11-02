@@ -74,36 +74,6 @@ public class PlayerProxy implements ModelListener {
     }
 
     /**
-     * Tell the model that it's his or her turn.
-     *
-     * @exception IOException Thrown if an I/O error occurs
-     */
-    public void yourTurn() throws IOException {
-        out.println("t");
-        out.flush();
-    }
-
-    /**
-     * Check whether it's my turn to move.
-     *
-     * @return boolean True if it's my turn, false otherwise.
-     */
-    public boolean isMyTurn() {
-        return false;
-    }
-
-    /**
-     * Determine whether there is a piece currently selected on the board.
-     *
-     * @return boolean True if there is a piece selected, false otherwise.
-     *
-     * @exception IOException Thrown if an I/O error occurs.
-     */
-    public boolean isPieceSelected() {
-        return false;
-    }
-
-    /**
      * Report that a piece has successfully been selected.
      *
      * @param row    The row of the selected piece.
@@ -113,6 +83,24 @@ public class PlayerProxy implements ModelListener {
      */
     public void pieceSelected(int row, int column) throws IOException {
         String message = "p " + row + " " + column;
+        out.println(message);
+        out.flush();
+    }
+
+    /**
+     * Report that a piece has been moved.
+     *
+     * @param oldRow    The row the piece is being moved from.
+     * @param oldColumn The column the piece is being moved from.
+     * @param newRow    The row the piece is moving to.
+     * @param newColumn The column the piece is moving to.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
+    public void pieceMoved(int oldRow, int oldColumn, int newRow,
+        int newColumn) throws IOException {
+        String message = "m " + oldRow + " " + oldColumn + " " + newRow + " "
+            + newColumn;
         out.println(message);
         out.flush();
     }
@@ -141,7 +129,7 @@ public class PlayerProxy implements ModelListener {
                     } else if (message.equals("m")) {
                         int row = in.nextInt();
                         int column = in.nextInt();
-                        viewListener.movePiece(row, column);
+                        viewListener.movePiece(PlayerProxy.this, row, column);
                     }
                 }
             } catch (IOException ex) {

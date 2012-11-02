@@ -12,38 +12,30 @@ public interface ModelListener {
 	/**
 	 * Too many players are connected.
 	 *
-	 * @exception IOException Thrown if an I/O error occurs
+	 * @exception IOException Thrown if an I/O error occurs.
 	 */
 	public void tooManyPlayers() throws IOException;
 
 	/**
-	 * Tell the model that it's his or her turn.
-	 *
-	 * @exception IOException Thrown if an I/O error occurs
-	 */
-	public void yourTurn() throws IOException;
-
-	/**
-	 * Check whether it's my turn to move.
-	 *
-	 * @return boolean True if it's my turn, false otherwise.
-	 */
-	public boolean isMyTurn();
-
-	/**
-	 * A piece has successfully been selected.
+	 * Report that a piece has successfully been selected.
 	 *
 	 * @param row    The row of the selected piece.
 	 * @param column The column of the selected piece.
 	 *
-	 * @exception IOException Thrown if an I/O error occurs
+	 * @exception IOException Thrown if an I/O error occurs.
 	 */
 	public void pieceSelected(int row, int column) throws IOException;
 
 	/**
-	 * Determine whether there is a piece currently selected on the board.
+	 * Report that a piece has been moved.
 	 *
-	 * @return boolean True if there is a piece selected, false otherwise.
+	 * @param oldRow    The row the piece is being moved from.
+	 * @param oldColumn	The column the piece is being moved from.
+	 * @param newRow    The row the piece is moving to.
+	 * @param newColumn The column the piece is moving to.
+	 *
+	 * @exception IOException Thrown if an I/O error occurs.
 	 */
-	public boolean isPieceSelected();
+	public void pieceMoved(int oldRow, int oldColumn, int newRow,
+		int newColumn) throws IOException;
 }
