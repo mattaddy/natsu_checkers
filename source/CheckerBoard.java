@@ -60,11 +60,17 @@ public class CheckerBoard {
      * @param piece  The piece to move.
      * @param row    The row to move the piece to.
      * @param column The column to move the piece to.
+     *
+     * @return boolean True if the move is possible, false otherwise.
      */
-    public void movePiece(CheckerPiece piece, int row, int column) {
-        CheckerPiece pieceToMove = pieces[piece.getRow()][piece.getColumn()];
-        pieces[row][column] = pieceToMove;
-        pieces[piece.getRow()][piece.getColumn()] = null;
+    public boolean movePiece(CheckerPiece piece, int row, int column) {
+        if (piece.isValidMove(row, column)) {
+            pieces[row][column] = piece;
+            pieces[piece.getRow()][piece.getColumn()] = null;
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

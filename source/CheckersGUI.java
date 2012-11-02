@@ -80,29 +80,11 @@ public class CheckersGUI implements ModelListener {
                     }
 
                     boardButtons[row][column].addActionListener(new
-                        ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            try {
-                                viewListener.selectPiece(null, currentRow,
-                                    currentColumn);
-                            } catch (IOException ex) {
-                                showIOError();
-                            }
-                        }
-                    });
+                        SelectPieceListener(currentRow, currentColumn));
 
                 } else {
                     boardButtons[row][column].addActionListener(new
-                        ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            try {
-                                viewListener.movePiece(null, currentRow,
-                                    currentColumn);
-                            } catch (IOException ex) {
-                                showIOError();
-                            }
-                        }
-                    });
+                        MovePieceListener(currentRow, currentColumn));
                 }
 
                 buttonPanel.add(boardButtons[row][column]);
@@ -148,9 +130,20 @@ public class CheckersGUI implements ModelListener {
      */
     public void pieceMoved(int oldRow, int oldColumn, int newRow,
         int newColumn) {
-        Icon i = boardButtons[oldRow][oldColumn].getIcon();
-        boardButtons[oldRow][oldColumn].setIcon(null);
-        boardButtons[newRow][newColumn].setIcon(i);
+        JButton oldButton = boardButtons[oldRow][oldColumn];
+        JButton newButton = boardButtons[newRow][newColumn];
+
+        Icon icon = oldButton.getIcon();
+        oldButton.setIcon(null);
+        newButton.setIcon(icon);
+
+        ActionListener[] listeners = oldButton.getActionListeners();
+        for(int i = 0; i < listeners.length; i++) {
+            oldButton.removeActionListener(listeners[i]);
+        }
+
+        oldButton.addActionListener(new MovePieceListener(oldRow, oldColumn));
+        newButton.addActionListener(new SelectPieceListener(newRow, newColumn));
     }
 
     /**
@@ -196,6 +189,56 @@ public class CheckersGUI implements ModelListener {
 
         } finally {
             System.exit(0);
+        }
+    }
+
+    /**
+     * Inner class that defines the action to perform when clicking a button
+     * that contains a CheckerPiece.
+     *
+     * @author Matt Addy <mxa5942@rit.edu>
+     * @author Allan Liburd <abl2114@rit.edu>
+     */
+    private class SelectPieceListener implements ActionListener {
+        private int row;
+        private int column;
+
+        public SelectPieceListener(int row, int column) {
+            this.row = row;
+            this.column = column;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            try {
+                viewListener.selectPiece(null, row, column);
+            } catch (IOException ex) {
+                showIOError();
+            }
+        }
+    }
+
+    /**
+     * Inner class that defines the action to perform when clicking a space
+     * to move a button.
+     *
+     * @author Matt Addy <mxa5942@rit.edu>
+     * @author Allan Liburd <abl2114@rit.edu>
+     */
+    private class MovePieceListener implements ActionListener {
+        private int row;
+        private int column;
+
+        public MovePieceListener(int row, int column) {
+            this.row = row;
+            this.column = column;
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            try {
+                viewListener.movePiece(null, row, column);
+            } catch (IOException ex) {
+                showIOError();
+            }
         }
     }
 }

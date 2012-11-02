@@ -94,8 +94,9 @@ public class CheckersModel implements ViewListener {
         Player player = (Player) modelListeners.get(modelListener);
         selectedPiece = board.getPiece(row, column);
 
-        if (currentTurn.equals(player)) {
+        if (currentTurn.equals(player) && selectedPiece != null) {
             if (player.getColor().equals(selectedPiece.getColor())) {
+                System.out.println("Selected piece (" + row + ", " + column + ")");
                 try {
                     Iterator it = modelListeners.entrySet().iterator();
                     while (it.hasNext()) {
@@ -133,9 +134,12 @@ public class CheckersModel implements ViewListener {
         // Make sure we have a selected piece and that desired location to
         // move the piece to is empty.
         if (currentTurn.equals(player) && selectedPiece != null && piece == null) {
-            if (selectedPiece.isValidMove(row, column)) {
+            if (board.movePiece(selectedPiece, row, column)) {
 
-                board.movePiece(selectedPiece, row, column);
+                int oldRow = selectedPiece.getRow();
+                int oldColumn = selectedPiece.getColumn();
+
+                selectedPiece.move(row, column);
 
                 try {
                     Iterator it = modelListeners.entrySet().iterator();
@@ -144,12 +148,11 @@ public class CheckersModel implements ViewListener {
                         Map.Entry pairs = (Map.Entry) it.next();
                         Player thisPlayer = (Player) pairs.getValue();
                         ModelListener thisListener = (ModelListener) pairs.getKey();
-                        thisListener.pieceMoved(selectedPiece.getRow(), selectedPiece.getColumn(), row, column);
+                        thisListener.pieceMoved(oldRow, oldColumn, row, column);
 
                         if (!currentTurn.equals(thisPlayer) && !playerSwitched) {
                             currentTurn = thisPlayer;
                             playerSwitched = true;
-                            System.out.println("Switching turns to " + thisPlayer);
                         }
                     }
                 } catch (IOException ex) {
