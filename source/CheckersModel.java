@@ -133,8 +133,16 @@ public class CheckersModel implements ViewListener {
 
         // Make sure we have a selected piece and that desired location to
         // move the piece to is empty.
-        if (currentTurn.equals(player) && selectedPiece != null && piece == null) {
-            if (board.movePiece(selectedPiece, row, column)) {
+        if (currentTurn.equals(player) && selectedPiece != null && piece == null
+            && modelListeners.size() == 2) {
+
+            // Check if the player is trying to jump
+            int thisRow = selectedPiece.getRow();
+            int thisColumn = selectedPiece.getColumn();
+
+            if (board.jumpPiece(selectedPiece, row, column)) {
+                System.out.println("You jumped a player.");
+            } else if (board.movePiece(selectedPiece, row, column)) {
 
                 int oldRow = selectedPiece.getRow();
                 int oldColumn = selectedPiece.getColumn();

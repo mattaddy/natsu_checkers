@@ -11,7 +11,7 @@ public class CheckerPiece {
     /**
      * The color of this piece.
      */
-    private Color color;
+    private CheckerColor color;
 
     /**
      * The row this piece is in.
@@ -31,7 +31,7 @@ public class CheckerPiece {
     /**
      * Construct a CheckerPiece object.
      */
-    public CheckerPiece(Color color, Direction direction, int row, int column) {
+    public CheckerPiece(CheckerColor color, Direction direction, int row, int column) {
         this.color = color;
         this.direction = direction;
         this.row = row;
@@ -44,7 +44,7 @@ public class CheckerPiece {
      * @return Color The color for this CheckerPiece.
      */
     public Color getColor() {
-        return color;
+        return color.getColor();
     }
 
     /**
@@ -63,6 +63,15 @@ public class CheckerPiece {
      */
     public int getColumn() {
         return column;
+    }
+
+    /**
+     * Get the direction that this piece can move.
+     *
+     * @return Direction The direction that this piece can move.
+     */
+    public Direction getDirection() {
+        return direction;
     }
 
     /**

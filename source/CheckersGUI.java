@@ -71,10 +71,10 @@ public class CheckersGUI implements ModelListener {
                 if (piece != null) {
                     Color color = piece.getColor();
 
-                    if (color == Color.RED) {
+                    if (color.equals(Color.RED)) {
                         boardButtons[row][column].setIcon(new ImageIcon(
                             "checkersKCred.png"));
-                    } else if (color == Color.BLACK) {
+                    } else if (color.equals(Color.BLACK)) {
                         boardButtons[row][column].setIcon(new ImageIcon(
                             "checkersKCblack.png"));
                     }

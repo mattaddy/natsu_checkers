@@ -33,9 +33,9 @@ public class CheckerBoard {
             for (int column = 0; column < COLUMNS; column++) {
                 if (row % 2 == column % 2) {
                     if (row <= 2) {
-                        pieces[row][column] = new CheckerPiece(Color.BLACK, CheckerPiece.Direction.DOWN, row, column);
+                        pieces[row][column] = new CheckerPiece(CheckerColor.BLACK, CheckerPiece.Direction.DOWN, row, column);
                     } else if (row >= (COLUMNS - 3)) {
-                        pieces[row][column] = new CheckerPiece(Color.RED, CheckerPiece.Direction.UP, row, column);
+                        pieces[row][column] = new CheckerPiece(CheckerColor.RED, CheckerPiece.Direction.UP, row, column);
                     }
                 }
             }
@@ -64,6 +64,9 @@ public class CheckerBoard {
      * @return boolean True if the move is possible, false otherwise.
      */
     public boolean movePiece(CheckerPiece piece, int row, int column) {
+        int thisRow = piece.getRow();
+        int thisColumn = piece.getColumn();
+
         if (piece.isValidMove(row, column)) {
             pieces[row][column] = piece;
             pieces[piece.getRow()][piece.getColumn()] = null;
@@ -71,6 +74,69 @@ public class CheckerBoard {
         } else {
             return false;
         }
+    }
+
+    /**
+     * Jump a piece on the board.
+     *
+     * @param piece  The piece to move.
+     * @param row    The row to move the piece to.
+     * @param column The column to move the piece to.
+     */
+    public boolean jumpPiece(CheckerPiece piece, int row, int column) {
+        boolean pieceJumped = false;
+
+        if (piece.getDirection() == CheckerPiece.Direction.UP) {
+            if (piece.getRow() > row) {
+                if (piece.getRow() - row == 2) {
+                    if (column > piece.getColumn()) {
+                        CheckerPiece pieceToJump = getPiece(row - 1, column + 1);
+
+                        if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
+                            pieces[row][column] = piece;
+                            pieces[piece.getRow()][piece.getColumn()] = null;
+                            pieces[row - 1][column + 1] = null;
+                            pieceJumped = true;
+                        }
+                    } else if (column < piece.getColumn()) {
+                        CheckerPiece pieceToJump = getPiece(row - 1, column - 1);
+
+                        if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
+                            pieces[row][column] = piece;
+                            pieces[piece.getRow()][piece.getColumn()] = null;
+                            pieces[row - 1][column - 1] = null;
+                            pieceJumped = true;
+                        }
+                    }
+                }
+            }
+
+        } else if (piece.getDirection() == CheckerPiece.Direction.DOWN) {
+            if (piece.getRow() < row) {
+                if (row - piece.getRow() == 2) {
+                    if (column > piece.getColumn()) {
+                        CheckerPiece pieceToJump = getPiece(row + 1, column + 1);
+
+                        if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
+                            pieces[row][column] = piece;
+                            pieces[piece.getRow()][piece.getColumn()] = null;
+                            pieces[row + 1][column + 1] = null;
+                            pieceJumped = true;
+                        }
+                    } else if (column < piece.getColumn()) {
+                        CheckerPiece pieceToJump = getPiece(row + 1, column - 1);
+
+                        if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
+                            pieces[row][column] = piece;
+                            pieces[piece.getRow()][piece.getColumn()] = null;
+                            pieces[row + 1][column - 1] = null;
+                            pieceJumped = true;
+                        }
+                    }
+                }
+            }
+        }
+        return pieceJumped;
     }
 
     /**
