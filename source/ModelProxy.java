@@ -141,7 +141,18 @@ public class ModelProxy implements ViewListener {
                         int newColumn = in.nextInt();
                         modelListener.pieceMoved(oldRow, oldColumn, newRow,
                             newColumn);
-                }
+                    } else if (message.equals("j")) {
+                        int oldRow = in.nextInt();
+                        int oldColumn = in.nextInt();
+                        int newRow = in.nextInt();
+                        int newColumn = in.nextInt();
+                        int pieceRemovedRow = in.nextInt();
+                        int pieceRemovedColumn = in.nextInt();
+                        CheckerPiece piece = new CheckerPiece(pieceRemovedRow,
+                            pieceRemovedColumn);
+                        modelListener.pieceJumped(oldRow, oldColumn,
+                            newRow, newColumn, piece);
+                    }
                 }
             } catch (IOException ex) {
 

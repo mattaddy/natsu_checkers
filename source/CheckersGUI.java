@@ -119,7 +119,7 @@ public class CheckersGUI implements ModelListener {
     public void pieceSelected(int row, int column) {}
 
     /**
-     * Report that a piece has been moved.
+     * A piece has moved on the board.
      *
      * @param oldRow    The row the piece is being moved from.
      * @param oldColumn The column the piece is being moved from.
@@ -144,6 +144,35 @@ public class CheckersGUI implements ModelListener {
 
         oldButton.addActionListener(new MovePieceListener(oldRow, oldColumn));
         newButton.addActionListener(new SelectPieceListener(newRow, newColumn));
+    }
+
+    /**
+     * Report that a piece has been jumped on the board.
+     *
+     * @param oldRow    The row the piece is being moved from.
+     * @param oldColumn The column the piece is being moved from.
+     * @param newRow    The row the piece is moving to.
+     * @param newColumn The column the piece is moving to.
+     * @param piece     The piece that was jumped.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
+    public void pieceJumped(int oldRow, int oldColumn, int newRow, int newColumn,
+        CheckerPiece piece) {
+        pieceMoved(oldRow, oldColumn, newRow, newColumn);
+
+        JButton buttonToRemove
+            = boardButtons[piece.getRow()][piece.getColumn()];
+
+        buttonToRemove.setIcon(null);
+
+        ActionListener[] listeners = buttonToRemove.getActionListeners();
+        for(int i = 0; i < listeners.length; i++) {
+            buttonToRemove.removeActionListener(listeners[i]);
+        }
+
+        buttonToRemove.addActionListener(
+            new MovePieceListener(piece.getRow(), piece.getColumn()));
     }
 
     /**

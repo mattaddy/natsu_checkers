@@ -30,10 +30,26 @@ public class CheckerPiece {
 
     /**
      * Construct a CheckerPiece object.
+     *
+     * @param color     The color of this piece.
+     * @param direction The direction this piece can move.
+     * @param row       The row of the piece.
+     * @param column    The column of the piece.
      */
     public CheckerPiece(CheckerColor color, Direction direction, int row, int column) {
         this.color = color;
         this.direction = direction;
+        this.row = row;
+        this.column = column;
+    }
+
+    /**
+     * Construct a CheckerPiece object.
+     *
+     * @param row    The row of the piece.
+     * @param column The column of the piece.
+     */
+    public CheckerPiece(int row, int column) {
         this.row = row;
         this.column = column;
     }

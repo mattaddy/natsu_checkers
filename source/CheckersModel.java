@@ -124,6 +124,7 @@ public class CheckersModel implements ViewListener {
      */
     public synchronized void movePiece(ModelListener modelListener, int row,
         int column) {
+        System.out.println("Trying to move to (" + row + ", " + column + ")");
         CheckerPiece piece = board.getPiece(row, column);
         Player player = (Player) modelListeners.get(modelListener);
 
@@ -132,10 +133,10 @@ public class CheckersModel implements ViewListener {
         if (currentTurn.equals(player) && selectedPiece != null && piece == null
             && modelListeners.size() == 2) {
 
-            // Check if the player is trying to jump
             int thisRow = selectedPiece.getRow();
             int thisColumn = selectedPiece.getColumn();
 
+            // Check if the player is trying to jump
             CheckerPiece pieceJumped = board.jumpPiece(selectedPiece, row, column);
 
             if (pieceJumped != null) {
@@ -148,8 +149,9 @@ public class CheckersModel implements ViewListener {
                         Map.Entry pairs = (Map.Entry) it.next();
                         Player thisPlayer = (Player) pairs.getValue();
                         ModelListener thisListener = (ModelListener) pairs.getKey();
-                        thisListener.pieceMoved(thisRow, thisColumn, row, column);
-                        // thisListener.pieceRemoved()
+
+                        thisListener.pieceJumped(thisRow, thisColumn, row,
+                            column, pieceJumped);
 
                         if (!currentTurn.equals(thisPlayer) && !playerSwitched) {
                             System.out.println("Now it's " + thisPlayer + "'s turn.");

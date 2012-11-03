@@ -38,4 +38,18 @@ public interface ModelListener {
 	 */
 	public void pieceMoved(int oldRow, int oldColumn, int newRow,
 		int newColumn) throws IOException;
+
+	/**
+	 * Report that a piece has been jumped on the board.
+	 *
+	 * @param oldRow    The row the piece is being moved from.
+	 * @param oldColumn The column the piece is being moved from.
+	 * @param newRow    The row the piece is moving to.
+	 * @param newColumn The column the piece is moving to.
+	 * @param piece     The piece that was jumped.
+	 *
+	 * @exception IOException Thrown if an I/O error occurs.
+	 */
+	public void pieceJumped(int oldRow, int oldColumn, int newRow,
+		int newColumn, CheckerPiece piece) throws IOException;
 }

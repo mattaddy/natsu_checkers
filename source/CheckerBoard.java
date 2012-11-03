@@ -96,7 +96,7 @@ public class CheckerBoard {
                         if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
                             pieces[row][column] = piece;
                             pieces[piece.getRow()][piece.getColumn()] = null;
-                            pieces[row - 1][column + 1] = null;
+                            pieces[row + 1][column - 1] = null;
                             pieceJumped = true;
                         }
                     } else if (column < piece.getColumn()) {
@@ -105,7 +105,7 @@ public class CheckerBoard {
                         if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
                             pieces[row][column] = piece;
                             pieces[piece.getRow()][piece.getColumn()] = null;
-                            pieces[row - 1][column - 1] = null;
+                            pieces[row + 1][column + 1] = null;
                             pieceJumped = true;
                         }
                     }
@@ -121,7 +121,7 @@ public class CheckerBoard {
                         if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
                             pieces[row][column] = piece;
                             pieces[piece.getRow()][piece.getColumn()] = null;
-                            pieces[row + 1][column + 1] = null;
+                            pieces[row - 1][column - 1] = null;
                             pieceJumped = true;
                         }
                     } else if (column < piece.getColumn()) {
@@ -130,7 +130,7 @@ public class CheckerBoard {
                         if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
                             pieces[row][column] = piece;
                             pieces[piece.getRow()][piece.getColumn()] = null;
-                            pieces[row + 1][column - 1] = null;
+                            pieces[row - 1][column + 1] = null;
                             pieceJumped = true;
                         }
                     }
