@@ -31,6 +31,11 @@ public class CheckersModel implements ViewListener {
     private CheckerPiece selectedPiece;
 
     /**
+     * Is the game over?
+     */
+    private boolean gameOver;
+
+    /**
      * The board of checkers for this model object.
      */
     private CheckerBoard board;
@@ -41,6 +46,7 @@ public class CheckersModel implements ViewListener {
     public CheckersModel() {
         modelListeners = new HashMap<ModelListener, Player>(MAX_PLAYERS);
         this.board = new CheckerBoard();
+        this.gameOver = false;
     }
 
     /**
@@ -130,7 +136,7 @@ public class CheckersModel implements ViewListener {
         // Make sure we have a selected piece and that desired location to
         // move the piece to is empty.
         if (currentTurn.equals(player) && selectedPiece != null && piece == null
-            && modelListeners.size() == 2) {
+            && modelListeners.size() == 2 && !gameOver) {
 
             int thisRow = selectedPiece.getRow();
             int thisColumn = selectedPiece.getColumn();
@@ -140,6 +146,13 @@ public class CheckersModel implements ViewListener {
 
             if (pieceJumped != null) {
                 selectedPiece.move(row, column);
+
+                Player winner = null;
+                if (board.getRedPieces().size() == 0) {
+                    gameOver = true;
+                } else if (board.getBlackPieces().size() == 0) {
+                    gameOver = true;
+                }
 
                 try {
                     Iterator it = modelListeners.entrySet().iterator();
@@ -151,6 +164,7 @@ public class CheckersModel implements ViewListener {
 
                         thisListener.pieceJumped(thisRow, thisColumn, row,
                             column, pieceJumped);
+                        // Game over?
 
                         if (!currentTurn.equals(thisPlayer) && !playerSwitched) {
                             System.out.println("Now it's " + thisPlayer + "'s turn.");

@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.util.*;
 
 /**
  * Class CheckerBoard represents the current state of the board for a game of
@@ -52,6 +53,42 @@ public class CheckerBoard {
      */
     public CheckerPiece getPiece(int row, int column) {
         return pieces[row][column];
+    }
+
+    /**
+     * Get all the red pieces on the board.
+     *
+     * @return CheckerPiece[] An array of all the red pieces.
+     */
+    public List<CheckerPiece> getRedPieces() {
+        ArrayList<CheckerPiece> redPieces = new ArrayList<CheckerPiece>();
+        for (int row = 0; row < ROWS; row++) {
+            for (int column = 0; column < COLUMNS; column++) {
+                CheckerPiece piece = pieces[row][column];
+                if (piece != null && piece.getColor().equals(Color.RED)) {
+                    redPieces.add(piece);
+                }
+            }
+        }
+        return redPieces;
+    }
+
+    /**
+     * Get all the black pieces on the board.
+     *
+     * @return CheckerPiece[] An array of all the black pieces.
+     */
+    public List<CheckerPiece> getBlackPieces() {
+        ArrayList<CheckerPiece> blackPieces = new ArrayList<CheckerPiece>();
+        for (int row = 0; row < ROWS; row++) {
+            for (int column = 0; column < COLUMNS; column++) {
+                CheckerPiece piece = pieces[row][column];
+                if (piece != null && piece.getColor().equals(Color.BLACK)) {
+                    blackPieces.add(piece);
+                }
+            }
+        }
+        return blackPieces;
     }
 
     /**

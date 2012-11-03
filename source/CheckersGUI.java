@@ -182,7 +182,46 @@ public class CheckersGUI implements ModelListener {
      * @param piece The piece that has been kinged.
      */
     public void pieceKinged(CheckerPiece piece) {
-        System.out.println("From the GUI: piece kinged at (" + piece.getRow() + ", " + piece.getColumn() + ")");
+        JButton kingedButton = boardButtons[piece.getRow()][piece.getColumn()];
+
+        if (piece.getColor().equals(Color.RED)) {
+            kingedButton.setIcon(new ImageIcon("checkersKCredKing.png"));
+        } else if (piece.getColor().equals(Color.BLACK)) {
+            kingedButton.setIcon(new ImageIcon("checkersKCblackKing.png"));
+        }
+    }
+
+    /**
+     * Report that the game is over.
+     *
+     * @param player The player who won the game.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
+    public void gameOver(Player winner) throws IOException {
+        String message;
+
+        if (winner.getColor().equals(Color.RED)) {
+            message = "Red wins!";
+        } else if (winner.getColor().equals(Color.BLACK)) {
+            message = "Black wins!";
+        } else {
+            message = "Nobody wins!";
+        }
+
+        // Remove all the ActionListener's on all buttons
+        for (int row = 0; row < CheckerBoard.ROWS; row++) {
+            for (int column = 0; column < CheckerBoard.COLUMNS; column++) {
+                JButton button = boardButtons[row][column];
+                ActionListener[] listeners = button.getActionListeners();
+                for(int i = 0; i < listeners.length; i++) {
+                    button.removeActionListener(listeners[i]);
+                }
+            }
+        }
+
+        JOptionPane.showMessageDialog(frame, message,
+            "Game over", JOptionPane.PLAIN_MESSAGE);
     }
 
     /**

@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.awt.Color;
 
 /**
  * Class CheckersModelClone provides a local representative of the "real"
@@ -30,6 +31,11 @@ public class CheckersModelClone implements ModelListener {
     private int selectedColumn;
 
     /**
+     * Is the game over?
+     */
+    private boolean gameOver;
+
+    /**
      * The board of checkers for this model object.
      */
     private CheckerBoard board;
@@ -39,6 +45,7 @@ public class CheckersModelClone implements ModelListener {
      */
     public CheckersModelClone() {
         board = new CheckerBoard();
+        gameOver = false;
         myTurn = false;
         selectedRow = -1;
         selectedColumn = -1;
@@ -89,12 +96,12 @@ public class CheckersModelClone implements ModelListener {
         boolean pieceAlreadyKinged = piece.isKinged();
         piece.move(newRow, newColumn);
 
+        modelListener.pieceMoved(oldRow, oldColumn, newRow,
+            newColumn);
+
         if (!pieceAlreadyKinged && piece.isKinged()) {
             modelListener.pieceKinged(piece);
         }
-
-        modelListener.pieceMoved(oldRow, oldColumn, newRow,
-            newColumn);
     }
 
     /**
@@ -113,15 +120,29 @@ public class CheckersModelClone implements ModelListener {
         CheckerPiece pieceMakingJump = board.getPiece(oldRow, oldColumn);
         board.jumpPiece(pieceMakingJump, newRow, newColumn);
 
-        boolean pieceAlreadyKinged = piece.isKinged();
+        boolean pieceAlreadyKinged = pieceMakingJump.isKinged();
         pieceMakingJump.move(newRow, newColumn);
 
-        if (!pieceAlreadyKinged && piece.isKinged()) {
-            modelListener.pieceKinged(piece);
+        if (board.getRedPieces().size() == 0) {
+            gameOver = true;
+        } else if (board.getBlackPieces().size() == 0) {
+            gameOver = true;
         }
 
         modelListener.pieceJumped(oldRow, oldColumn, newRow, newColumn,
             piece);
+
+        if (!pieceAlreadyKinged && pieceMakingJump.isKinged()) {
+            modelListener.pieceKinged(pieceMakingJump);
+        }
+
+        if (board.getRedPieces().size() == 0) {
+            gameOver = true;
+            modelListener.gameOver(new Player(Color.BLACK));
+        } else if (board.getBlackPieces().size() == 0) {
+            gameOver = true;
+            modelListener.gameOver(new Player(Color.RED));
+        }
     }
 
     /**
@@ -132,5 +153,14 @@ public class CheckersModelClone implements ModelListener {
      * @excetion IOException Thrown if an I/O error occurs.
      */
     public void pieceKinged(CheckerPiece piece) throws IOException {}
+
+    /**
+     * Report that the game is over.
+     *
+     * @param player The player who won the game.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
+    public void gameOver(Player winner) throws IOException {}
 
 }

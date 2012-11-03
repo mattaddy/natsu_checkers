@@ -134,6 +134,15 @@ public class PlayerProxy implements ModelListener {
     public void pieceKinged(CheckerPiece piece) throws IOException {}
 
     /**
+     * Report that the game is over.
+     *
+     * @param player The player who won the game.
+     *
+     * @exception IOException Thrown if an I/O error occurs.
+     */
+    public void gameOver(Player winner) throws IOException {}
+
+    /**
      * Class ClientMessage is responsible for receiving messages from the
      * remote client and sending messages to the ViewListener object.
      *
