@@ -1,11 +1,3 @@
-//******************************************************************************
-//
-// File:    ViewListener.java
-// Package: ---
-// Unit:    Interface ViewListener
-//
-//******************************************************************************
-
 import java.awt.Color;
 import java.io.IOException;
 
