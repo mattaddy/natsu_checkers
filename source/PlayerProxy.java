@@ -175,6 +175,7 @@ public class PlayerProxy implements ModelListener {
 
             } finally {
                 try {
+                    viewListener.close(PlayerProxy.this);
                     out.close();
                     in.close();
                     sock.close();

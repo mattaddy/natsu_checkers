@@ -105,10 +105,12 @@ public class ModelProxy implements ViewListener {
     /**
      * Close the socket connection on this proxy object.
      *
+     * @param modelListener The ModelListener closing the connection.
+     *
      * @exception IOException Thrown if any errors occur during communication
      *                        with the service.
      */
-    public void close() throws IOException {
+    public void close(ModelListener modelListener) throws IOException {
         out.close();
         in.close();
         sock.close();

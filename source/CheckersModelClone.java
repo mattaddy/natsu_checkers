@@ -16,21 +16,6 @@ public class CheckersModelClone implements ModelListener {
     private ModelListener modelListener;
 
     /**
-     * Is it my turn to make a move?
-     */
-    private boolean myTurn;
-
-    /**
-     * The row of the currently selected piece.
-     */
-    private int selectedRow;
-
-    /**
-     * The column of the currently selected piece.
-     */
-    private int selectedColumn;
-
-    /**
      * Is the game over?
      */
     private boolean gameOver;
@@ -46,9 +31,6 @@ public class CheckersModelClone implements ModelListener {
     public CheckersModelClone() {
         board = new CheckerBoard();
         gameOver = false;
-        myTurn = false;
-        selectedRow = -1;
-        selectedColumn = -1;
     }
 
     /**
@@ -69,14 +51,14 @@ public class CheckersModelClone implements ModelListener {
         return board;
     }
 
+    /**
+     * Too many players are connected.
+     */
     public void tooManyPlayers() throws IOException {
         modelListener.tooManyPlayers();
     }
 
-    public void pieceSelected(int row, int column) {
-        selectedRow = row;
-        selectedColumn = column;
-    }
+    public void pieceSelected(int row, int column) { }
 
     /**
      * Report that a piece has been moved.

@@ -1,6 +1,3 @@
-/**
- *
- */
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -22,13 +19,16 @@ public class CheckersGUI implements ModelListener {
     private JFrame frame;
 
     private JButton[][] boardButtons;
+
     private final Color BLACK = Color.BLACK;
     private final Color RED = Color.RED;
 
     private JButton quitButton;
 
     /**
-     * The CheckersGUI constructor
+     * The CheckersGUI constructor.
+     *
+     * @param board The checker board for this GUI.
      */
     public CheckersGUI(CheckerBoard board) {
 
@@ -105,10 +105,18 @@ public class CheckersGUI implements ModelListener {
         frame.setVisible(true);
     }
 
+    /**
+     * Set the ViewListener object for this GUI.
+     *
+     * @param viewListener The ViewListener object.
+     */
     public void setViewListener(ViewListener viewListener) {
         this.viewListener = viewListener;
     }
 
+    /**
+     * Too many players for this game.
+     */
     public void tooManyPlayers() {
         JOptionPane.showMessageDialog(frame, "Too many players",
             "There are too many players in the specified session. Please "
@@ -116,6 +124,12 @@ public class CheckersGUI implements ModelListener {
             JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     * A piece has been selected on the board.
+     *
+     * @param row    The row of the selected piece.
+     * @param column The column of the selected piece.
+     */
     public void pieceSelected(int row, int column) {}
 
     /**
@@ -150,7 +164,7 @@ public class CheckersGUI implements ModelListener {
     }
 
     /**
-     * Report that a piece has been jumped on the board.
+     * A piece has been jumped on the board.
      *
      * @param oldRow    The row the piece is being moved from.
      * @param oldColumn The column the piece is being moved from.
@@ -177,7 +191,7 @@ public class CheckersGUI implements ModelListener {
     }
 
     /**
-     * Report that a piece has been kinged.
+     * A piece has been kinged.
      *
      * @param piece The piece that has been kinged.
      */
@@ -225,44 +239,12 @@ public class CheckersGUI implements ModelListener {
     }
 
     /**
-     * Determines the background color to be used
-     *
-     * @param c
-     * @return
-     */
-    private Color determineColor(int c) {
-        int temp = c % 16;
-        if (temp > 7)
-            temp += 1;
-        if (temp % 2 == 0)
-            return RED;
-        else
-            return BLACK;
-    }
-
-    /**
-     * Message Dialog for the illegal/
-     */
-    private void illegalMoveError() {
-        JOptionPane.showMessageDialog(frame, "Illegal Move",
-            "Illegal move. Try again", JOptionPane.ERROR_MESSAGE);
-    }
-
-    /**
-     * Show a dialog stating that it's not my turn.
-     */
-    private void notMyTurn() {
-        JOptionPane.showMessageDialog(frame, "Not your turn",
-            "It's not your turn yet.", JOptionPane.ERROR_MESSAGE);
-    }
-
-    /**
      * Print an I/O error message to standard error and terminate.
      */
     private void showIOError() {
         try {
             System.err.println("Error communicating with the server. Exiting.");
-            viewListener.close();
+            viewListener.close(CheckersGUI.this);
         } catch (IOException ex) {
 
         } finally {

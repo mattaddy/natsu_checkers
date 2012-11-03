@@ -76,9 +76,11 @@ public class SessionManager implements ViewListener {
     /**
      * Perform any necessary cleanup when the application closes.
      *
+     * @param modelListener The ModelListener closing the connection.
+     *
      * @exception IOException Thrown if any errors occur during communication
      *                        with the service.
      */
-    public synchronized void close() {}
+    public synchronized void close(ModelListener modelListener) {}
 
 }

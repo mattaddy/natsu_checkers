@@ -226,22 +226,4 @@ public class CheckerBoard {
         }
     }
 
-    /**
-     * Print the CheckerBoard (USED FOR DEBUGGING).
-     */
-    public void print() {
-        for (int column = 0; column < COLUMNS; column++) {
-            for (int row = 0; row < ROWS; row++) {
-                System.out.print("[");
-                if (pieces[column][row] == null) {
-                    System.out.print(" ");
-                } else {
-                    System.out.print(pieces[column][row]);
-                }
-                System.out.print("]");
-            }
-            System.out.println("");
-        }
-    }
-
 }

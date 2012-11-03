@@ -100,7 +100,6 @@ public class CheckersModel implements ViewListener {
 
         if (currentTurn.equals(player) && selectedPiece != null) {
             if (player.getColor().equals(selectedPiece.getColor())) {
-                System.out.println("Selected piece (" + row + ", " + column + ")");
                 try {
                     Iterator it = modelListeners.entrySet().iterator();
                     while (it.hasNext()) {
@@ -112,11 +111,9 @@ public class CheckersModel implements ViewListener {
 
                 }
             } else {
-                System.out.println("You selected a piece that's not yours.");
                 selectedPiece = null;
             }
         } else {
-            System.out.println("It's not your turn!");
             selectedPiece = null;
         }
     }
@@ -164,10 +161,8 @@ public class CheckersModel implements ViewListener {
 
                         thisListener.pieceJumped(thisRow, thisColumn, row,
                             column, pieceJumped);
-                        // Game over?
 
                         if (!currentTurn.equals(thisPlayer) && !playerSwitched) {
-                            System.out.println("Now it's " + thisPlayer + "'s turn.");
                             currentTurn = thisPlayer;
                             playerSwitched = true;
                         }
@@ -190,7 +185,6 @@ public class CheckersModel implements ViewListener {
                         thisListener.pieceMoved(thisRow, thisColumn, row, column);
 
                         if (!currentTurn.equals(thisPlayer) && !playerSwitched) {
-                            System.out.println("Now it's " + thisPlayer + "'s turn.");
                             currentTurn = thisPlayer;
                             playerSwitched = true;
                         }
@@ -199,7 +193,6 @@ public class CheckersModel implements ViewListener {
 
                 }
             } else {
-                System.out.println("Invalid move.");
             }
         }
     }
@@ -216,8 +209,18 @@ public class CheckersModel implements ViewListener {
     /**
      * Perform any necessary cleanup when the application closes.
      *
+     * @param modelListener The ModelListener closing the connection.
+     *
      * @exception IOException Thrown if any errors occur during communication
      *                        with the service.
      */
-    public synchronized void close() {}
+    public synchronized void close(ModelListener modelListener) {
+        /**
+        * The following is currently not implemented until we can find a
+        * way to synchronize the game board on the server with the game
+        * board on the client when a player "rejoins."
+        */
+
+        // modelListeners.remove(modelListener);
+    }
 }
