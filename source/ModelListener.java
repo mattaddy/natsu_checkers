@@ -52,4 +52,14 @@ public interface ModelListener {
 	 */
 	public void pieceJumped(int oldRow, int oldColumn, int newRow,
 		int newColumn, CheckerPiece piece) throws IOException;
+
+	/**
+	 * Report that a piece has been kinged.
+	 *
+	 * @param piece The piece that has been kinged.
+	 *
+	 * @excetion IOException Thrown if an I/O error occurs.
+	 */
+	public void pieceKinged(CheckerPiece piece) throws IOException;
+
 }

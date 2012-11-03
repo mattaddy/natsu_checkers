@@ -112,6 +112,12 @@ public class CheckerPiece {
             } else {
                 return false;
             }
+        } else if (direction == Direction.BOTH) {
+            if ((row == this.row - 1 && (column == this.column - 1 || column == this.column + 1)) || (row == this.row + 1 && (column == this.column - 1 || column == this.column + 1))) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
@@ -126,6 +132,21 @@ public class CheckerPiece {
     public void move(int row, int column) {
         this.row = row;
         this.column = column;
+
+        if (direction == Direction.UP && row == 0) {
+            direction = Direction.BOTH;
+        } else if (direction == Direction.DOWN && row == 7) {
+            direction = Direction.BOTH;
+        }
+    }
+
+    /**
+     * Determine whether this piece is kinged or not.
+     *
+     * @return boolean True if this piece is kinged, false otherwise.
+     */
+    public boolean isKinged() {
+        return direction == Direction.BOTH;
     }
 
     /**
@@ -138,9 +159,9 @@ public class CheckerPiece {
     }
 
     /**
-     * An enumerator that represents a direction.
+     * An enumerator that represents a direction that a checker can move.
      */
     public enum Direction {
-        UP, DOWN;
+        UP, DOWN, BOTH;
     }
 }

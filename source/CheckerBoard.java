@@ -133,6 +133,53 @@ public class CheckerBoard {
                     }
                 }
             }
+
+        } else if (piece.getDirection() == CheckerPiece.Direction.BOTH) {
+            if (piece.getRow() > row) {
+                if (piece.getRow() - row == 2) {
+                    if (column > piece.getColumn()) {
+                        pieceToJump = getPiece(row + 1, column - 1);
+
+                        if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
+                            pieces[row][column] = piece;
+                            pieces[piece.getRow()][piece.getColumn()] = null;
+                            pieces[row + 1][column - 1] = null;
+                            pieceJumped = true;
+                        }
+                    } else if (column < piece.getColumn()) {
+                        pieceToJump = getPiece(row + 1, column + 1);
+
+                        if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
+                            pieces[row][column] = piece;
+                            pieces[piece.getRow()][piece.getColumn()] = null;
+                            pieces[row + 1][column + 1] = null;
+                            pieceJumped = true;
+                        }
+                    }
+                }
+            } else if (piece.getRow() < row) {
+                if (row - piece.getRow() == 2) {
+                    if (column > piece.getColumn()) {
+                        pieceToJump = getPiece(row - 1, column - 1);
+
+                        if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
+                            pieces[row][column] = piece;
+                            pieces[piece.getRow()][piece.getColumn()] = null;
+                            pieces[row - 1][column - 1] = null;
+                            pieceJumped = true;
+                        }
+                    } else if (column < piece.getColumn()) {
+                        pieceToJump = getPiece(row - 1, column + 1);
+
+                        if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
+                            pieces[row][column] = piece;
+                            pieces[piece.getRow()][piece.getColumn()] = null;
+                            pieces[row - 1][column + 1] = null;
+                            pieceJumped = true;
+                        }
+                    }
+                }
+            }
         }
 
         if (pieceJumped) {

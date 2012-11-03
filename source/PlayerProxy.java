@@ -125,6 +125,15 @@ public class PlayerProxy implements ModelListener {
     }
 
     /**
+     * Report that a piece has been kinged.
+     *
+     * @param piece The piece that has been kinged.
+     *
+     * @excetion IOException Thrown if an I/O error occurs.
+     */
+    public void pieceKinged(CheckerPiece piece) throws IOException {}
+
+    /**
      * Class ClientMessage is responsible for receiving messages from the
      * remote client and sending messages to the ViewListener object.
      *

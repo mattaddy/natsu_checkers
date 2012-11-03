@@ -125,8 +125,6 @@ public class CheckersGUI implements ModelListener {
      * @param oldColumn The column the piece is being moved from.
      * @param newRow    The row the piece is moving to.
      * @param newColumn The column the piece is moving to.
-     *
-     * @exception IOException Thrown if an I/O error occurs.
      */
     public void pieceMoved(int oldRow, int oldColumn, int newRow,
         int newColumn) {
@@ -159,8 +157,6 @@ public class CheckersGUI implements ModelListener {
      * @param newRow    The row the piece is moving to.
      * @param newColumn The column the piece is moving to.
      * @param piece     The piece that was jumped.
-     *
-     * @exception IOException Thrown if an I/O error occurs.
      */
     public void pieceJumped(int oldRow, int oldColumn, int newRow, int newColumn,
         CheckerPiece piece) {
@@ -178,6 +174,15 @@ public class CheckersGUI implements ModelListener {
 
         buttonToRemove.addActionListener(
             new MovePieceListener(piece.getRow(), piece.getColumn()));
+    }
+
+    /**
+     * Report that a piece has been kinged.
+     *
+     * @param piece The piece that has been kinged.
+     */
+    public void pieceKinged(CheckerPiece piece) {
+        System.out.println("From the GUI: piece kinged at (" + piece.getRow() + ", " + piece.getColumn() + ")");
     }
 
     /**

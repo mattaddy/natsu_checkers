@@ -85,7 +85,14 @@ public class CheckersModelClone implements ModelListener {
         int newColumn) throws IOException {
         CheckerPiece piece = board.getPiece(oldRow, oldColumn);
         board.movePiece(piece, newRow, newColumn);
+
+        boolean pieceAlreadyKinged = piece.isKinged();
         piece.move(newRow, newColumn);
+
+        if (!pieceAlreadyKinged && piece.isKinged()) {
+            modelListener.pieceKinged(piece);
+        }
+
         modelListener.pieceMoved(oldRow, oldColumn, newRow,
             newColumn);
     }
@@ -105,9 +112,25 @@ public class CheckersModelClone implements ModelListener {
         int newColumn, CheckerPiece piece) throws IOException {
         CheckerPiece pieceMakingJump = board.getPiece(oldRow, oldColumn);
         board.jumpPiece(pieceMakingJump, newRow, newColumn);
+
+        boolean pieceAlreadyKinged = piece.isKinged();
         pieceMakingJump.move(newRow, newColumn);
+
+        if (!pieceAlreadyKinged && piece.isKinged()) {
+            modelListener.pieceKinged(piece);
+        }
+
         modelListener.pieceJumped(oldRow, oldColumn, newRow, newColumn,
             piece);
     }
+
+    /**
+     * Report that a piece has been kinged.
+     *
+     * @param piece The piece that has been kinged.
+     *
+     * @excetion IOException Thrown if an I/O error occurs.
+     */
+    public void pieceKinged(CheckerPiece piece) throws IOException {}
 
 }

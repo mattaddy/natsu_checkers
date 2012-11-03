@@ -172,6 +172,7 @@ public class CheckersModel implements ViewListener {
                         Map.Entry pairs = (Map.Entry) it.next();
                         Player thisPlayer = (Player) pairs.getValue();
                         ModelListener thisListener = (ModelListener) pairs.getKey();
+
                         thisListener.pieceMoved(thisRow, thisColumn, row, column);
 
                         if (!currentTurn.equals(thisPlayer) && !playerSwitched) {
