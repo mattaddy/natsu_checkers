@@ -120,7 +120,6 @@ public class PlayerProxy implements ModelListener {
         int newColumn, CheckerPiece piece) throws IOException {
         String message = "j " + oldRow + " " + oldColumn + " " + newRow + " "
             + newColumn + " " + piece.getRow() + " " + piece.getColumn();
-        System.out.println(message);
         out.println(message);
         out.flush();
     }

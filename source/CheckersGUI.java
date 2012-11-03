@@ -142,6 +142,11 @@ public class CheckersGUI implements ModelListener {
             oldButton.removeActionListener(listeners[i]);
         }
 
+        listeners = newButton.getActionListeners();
+        for(int i = 0; i < listeners.length; i++) {
+            newButton.removeActionListener(listeners[i]);
+        }
+
         oldButton.addActionListener(new MovePieceListener(oldRow, oldColumn));
         newButton.addActionListener(new SelectPieceListener(newRow, newColumn));
     }

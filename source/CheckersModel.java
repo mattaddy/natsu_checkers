@@ -124,7 +124,6 @@ public class CheckersModel implements ViewListener {
      */
     public synchronized void movePiece(ModelListener modelListener, int row,
         int column) {
-        System.out.println("Trying to move to (" + row + ", " + column + ")");
         CheckerPiece piece = board.getPiece(row, column);
         Player player = (Player) modelListeners.get(modelListener);
 

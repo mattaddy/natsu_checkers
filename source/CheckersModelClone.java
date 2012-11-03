@@ -85,6 +85,7 @@ public class CheckersModelClone implements ModelListener {
         int newColumn) throws IOException {
         CheckerPiece piece = board.getPiece(oldRow, oldColumn);
         board.movePiece(piece, newRow, newColumn);
+        piece.move(newRow, newColumn);
         modelListener.pieceMoved(oldRow, oldColumn, newRow,
             newColumn);
     }
@@ -102,7 +103,9 @@ public class CheckersModelClone implements ModelListener {
      */
     public void pieceJumped(int oldRow, int oldColumn, int newRow,
         int newColumn, CheckerPiece piece) throws IOException {
-        board.jumpPiece(piece, newRow, newColumn);
+        CheckerPiece pieceMakingJump = board.getPiece(oldRow, oldColumn);
+        board.jumpPiece(pieceMakingJump, newRow, newColumn);
+        pieceMakingJump.move(newRow, newColumn);
         modelListener.pieceJumped(oldRow, oldColumn, newRow, newColumn,
             piece);
     }

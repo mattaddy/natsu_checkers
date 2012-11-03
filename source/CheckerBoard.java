@@ -64,9 +64,6 @@ public class CheckerBoard {
      * @return boolean True if the move is possible, false otherwise.
      */
     public boolean movePiece(CheckerPiece piece, int row, int column) {
-        int thisRow = piece.getRow();
-        int thisColumn = piece.getColumn();
-
         if (piece.isValidMove(row, column)) {
             pieces[row][column] = piece;
             pieces[piece.getRow()][piece.getColumn()] = null;
