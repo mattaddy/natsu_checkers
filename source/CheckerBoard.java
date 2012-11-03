@@ -32,7 +32,7 @@ public class CheckerBoard {
 
         for (int row = 0; row < ROWS; row++) {
             for (int column = 0; column < COLUMNS; column++) {
-                if (row % 2 == column % 2) {
+                if (row % 2 != column % 2) {
                     if (row <= 2) {
                         pieces[row][column] = new CheckerPiece(CheckerColor.BLACK, CheckerPiece.Direction.DOWN, row, column);
                     } else if (row >= (COLUMNS - 3)) {
