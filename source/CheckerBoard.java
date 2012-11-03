@@ -83,14 +83,15 @@ public class CheckerBoard {
      * @param row    The row to move the piece to.
      * @param column The column to move the piece to.
      */
-    public boolean jumpPiece(CheckerPiece piece, int row, int column) {
+    public CheckerPiece jumpPiece(CheckerPiece piece, int row, int column) {
+        CheckerPiece pieceToJump = null;
         boolean pieceJumped = false;
 
         if (piece.getDirection() == CheckerPiece.Direction.UP) {
             if (piece.getRow() > row) {
                 if (piece.getRow() - row == 2) {
                     if (column > piece.getColumn()) {
-                        CheckerPiece pieceToJump = getPiece(row - 1, column + 1);
+                        pieceToJump = getPiece(row + 1, column - 1);
 
                         if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
                             pieces[row][column] = piece;
@@ -99,7 +100,7 @@ public class CheckerBoard {
                             pieceJumped = true;
                         }
                     } else if (column < piece.getColumn()) {
-                        CheckerPiece pieceToJump = getPiece(row - 1, column - 1);
+                        pieceToJump = getPiece(row + 1, column + 1);
 
                         if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
                             pieces[row][column] = piece;
@@ -115,7 +116,7 @@ public class CheckerBoard {
             if (piece.getRow() < row) {
                 if (row - piece.getRow() == 2) {
                     if (column > piece.getColumn()) {
-                        CheckerPiece pieceToJump = getPiece(row + 1, column + 1);
+                        pieceToJump = getPiece(row - 1, column - 1);
 
                         if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
                             pieces[row][column] = piece;
@@ -124,7 +125,7 @@ public class CheckerBoard {
                             pieceJumped = true;
                         }
                     } else if (column < piece.getColumn()) {
-                        CheckerPiece pieceToJump = getPiece(row + 1, column - 1);
+                        pieceToJump = getPiece(row - 1, column + 1);
 
                         if (pieceToJump != null && !pieceToJump.getColor().equals(piece.getColor())) {
                             pieces[row][column] = piece;
@@ -136,7 +137,12 @@ public class CheckerBoard {
                 }
             }
         }
-        return pieceJumped;
+
+        if (pieceJumped) {
+            return pieceToJump;
+        } else {
+            return null;
+        }
     }
 
     /**

@@ -85,8 +85,6 @@ public class CheckersModel implements ViewListener {
      * @param modelListener The ModelListener object making the request.
      * @param row           The column of the piece to select.
      * @param column        The row of the piece to select.
-     *
-     * @exception IOException Thrown if an I/O error occurs.
      */
     public synchronized void selectPiece(ModelListener modelListener, int row,
         int column) {
@@ -123,8 +121,6 @@ public class CheckersModel implements ViewListener {
      * @param modelListener The ModelListener object making the request.
      * @param row           The column of the piece to move.
      * @param column        The row of the piece to move.
-     *
-     * @exception IOException Thrown if an I/O error occurs.
      */
     public synchronized void movePiece(ModelListener modelListener, int row,
         int column) {
@@ -140,13 +136,9 @@ public class CheckersModel implements ViewListener {
             int thisRow = selectedPiece.getRow();
             int thisColumn = selectedPiece.getColumn();
 
-            if (board.jumpPiece(selectedPiece, row, column)) {
-                System.out.println("You jumped a player.");
-            } else if (board.movePiece(selectedPiece, row, column)) {
+            CheckerPiece pieceJumped = board.jumpPiece(selectedPiece, row, column);
 
-                int oldRow = selectedPiece.getRow();
-                int oldColumn = selectedPiece.getColumn();
-
+            if (pieceJumped != null) {
                 selectedPiece.move(row, column);
 
                 try {
@@ -156,9 +148,33 @@ public class CheckersModel implements ViewListener {
                         Map.Entry pairs = (Map.Entry) it.next();
                         Player thisPlayer = (Player) pairs.getValue();
                         ModelListener thisListener = (ModelListener) pairs.getKey();
-                        thisListener.pieceMoved(oldRow, oldColumn, row, column);
+                        thisListener.pieceMoved(thisRow, thisColumn, row, column);
+                        // thisListener.pieceRemoved()
 
                         if (!currentTurn.equals(thisPlayer) && !playerSwitched) {
+                            System.out.println("Now it's " + thisPlayer + "'s turn.");
+                            currentTurn = thisPlayer;
+                            playerSwitched = true;
+                        }
+                    }
+                } catch (IOException ex) {
+
+                }
+
+            } else if (board.movePiece(selectedPiece, row, column)) {
+                selectedPiece.move(row, column);
+
+                try {
+                    Iterator it = modelListeners.entrySet().iterator();
+                    boolean playerSwitched = false;
+                    while (it.hasNext()) {
+                        Map.Entry pairs = (Map.Entry) it.next();
+                        Player thisPlayer = (Player) pairs.getValue();
+                        ModelListener thisListener = (ModelListener) pairs.getKey();
+                        thisListener.pieceMoved(thisRow, thisColumn, row, column);
+
+                        if (!currentTurn.equals(thisPlayer) && !playerSwitched) {
+                            System.out.println("Now it's " + thisPlayer + "'s turn.");
                             currentTurn = thisPlayer;
                             playerSwitched = true;
                         }
